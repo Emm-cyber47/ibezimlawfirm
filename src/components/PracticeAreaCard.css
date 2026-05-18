@@ -1,0 +1,173 @@
+.practice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18.5rem, 1fr));
+  gap: 1.5rem;
+}
+
+.practice-card {
+  position: relative;
+  min-height: 20rem;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform 0.45s var(--ease-luxe),
+    box-shadow 0.45s var(--ease-luxe);
+}
+
+.practice-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-luxe);
+}
+
+.practice-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1);
+  transition: transform 0.8s var(--ease-luxe);
+}
+
+.practice-card:hover .practice-card-bg {
+  transform: scale(1.08);
+}
+
+.practice-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--rgb-navy), 0.25) 0%,
+    rgba(var(--rgb-navy), 0.55) 40%,
+    rgba(var(--rgb-navy), 0.94) 100%
+  );
+  transition: background 0.5s var(--ease-luxe);
+}
+
+.practice-card:hover .practice-card-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--rgb-navy), 0.35) 0%,
+    rgba(var(--rgb-accent), 0.35) 45%,
+    rgba(var(--rgb-navy), 0.96) 100%
+  );
+}
+
+.practice-card-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.7s var(--ease-luxe);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.practice-card:hover .practice-card-shine {
+  transform: translateX(100%);
+}
+
+.practice-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-blue-light), var(--color-red), var(--color-blue-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-luxe);
+  z-index: 3;
+}
+
+.practice-card:hover::after {
+  transform: scaleX(1);
+}
+
+.practice-card-body {
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem 1.625rem 1.625rem;
+  color: var(--color-white);
+}
+
+.practice-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.625rem;
+  transition: color 0.3s var(--ease-luxe);
+}
+
+.practice-card:hover .practice-card-body h3 {
+  color: var(--color-red-soft);
+}
+
+.practice-card-body p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.practice-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.125rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition:
+    opacity 0.35s var(--ease-luxe),
+    transform 0.35s var(--ease-luxe),
+    color 0.25s;
+}
+
+.practice-card:hover .practice-card-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.practice-card-cta:hover {
+  color: var(--color-red-soft);
+}
+
+.practice-card-cta-arrow {
+  display: inline-block;
+  transition: transform 0.25s var(--ease-luxe);
+}
+
+.practice-card-cta:hover .practice-card-cta-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+  .practice-card {
+    min-height: 18rem;
+  }
+
+  .practice-card-cta {
+    opacity: 1;
+    transform: none;
+  }
+}

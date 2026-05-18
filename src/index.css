@@ -1,0 +1,182 @@
+:root {
+  /* Luxe red & blue — classic law firm palette */
+  --color-blue: #0c1f3d;
+  --color-blue-mid: #16325c;
+  --color-blue-light: #2a4a7c;
+  --color-red: #8f1f2f;
+  --color-red-light: #b52d42;
+  --color-red-soft: #d45668;
+  --color-platinum: #e8e4dc;
+
+  /* Semantic aliases (used across components) */
+  --color-navy: var(--color-blue);
+  --color-navy-light: var(--color-blue-mid);
+  --color-gold: var(--color-red);
+  --color-gold-light: var(--color-red-light);
+  --color-accent-gold: var(--color-blue-light);
+
+  --color-cream: #f7f5f0;
+  --color-white: #ffffff;
+  --color-text: #121a2b;
+  --color-text-muted: #5a6272;
+  --color-border: #ddd9d0;
+  --rgb-navy: 12, 31, 61;
+  --rgb-accent: 143, 31, 47;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 3px rgba(var(--rgb-navy), 0.08);
+  --shadow-md: 0 10px 32px rgba(var(--rgb-navy), 0.12);
+  --shadow-lg: 0 20px 56px rgba(var(--rgb-navy), 0.16);
+  --shadow-luxe: 0 24px 64px rgba(var(--rgb-navy), 0.14);
+
+  --max-width: 72rem;
+  --header-height: 4.5rem;
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.container {
+  width: min(100% - 2rem, var(--max-width));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: 5rem;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 600;
+  color: var(--color-blue);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.section-lead {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  max-width: 40rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: 2px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.25s var(--ease-luxe),
+    color 0.25s var(--ease-luxe),
+    border-color 0.25s var(--ease-luxe),
+    transform 0.2s var(--ease-luxe),
+    box-shadow 0.25s var(--ease-luxe);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--color-red);
+  color: var(--color-white);
+  border-color: var(--color-red);
+  box-shadow: 0 4px 16px rgba(var(--rgb-accent), 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--color-red-light);
+  border-color: var(--color-red-light);
+  color: var(--color-white);
+  box-shadow: 0 6px 22px rgba(var(--rgb-accent), 0.32);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.btn-outline:hover {
+  background: var(--color-white);
+  color: var(--color-blue);
+  border-color: var(--color-white);
+}
+
+.btn-navy {
+  background: var(--color-blue);
+  color: var(--color-white);
+  border-color: var(--color-blue);
+  box-shadow: 0 4px 16px rgba(var(--rgb-navy), 0.2);
+}
+
+.btn-navy:hover {
+  background: var(--color-blue-mid);
+  border-color: var(--color-blue-mid);
+  box-shadow: 0 6px 22px rgba(var(--rgb-navy), 0.28);
+}

@@ -1,0 +1,321 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-height);
+  gap: 1.5rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+}
+
+.logo-image {
+  display: block;
+  height: 2.75rem;
+  width: auto;
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logo-text strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-blue);
+}
+
+.logo-text small {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--color-navy);
+  border-radius: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: 2px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover,
+.nav-link--active,
+.nav-link--trigger:hover,
+.nav-link--trigger.nav-link--active {
+  color: var(--color-gold);
+  background: rgba(var(--rgb-accent), 0.1);
+}
+
+.nav-item--dropdown {
+  position: relative;
+}
+
+.nav-link--trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.nav-chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-item--open .nav-chevron,
+.nav-item--dropdown:focus-within .nav-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  min-width: 13rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.375rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.35rem);
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    transform 0.2s ease;
+  z-index: 110;
+}
+
+.nav-item--open .nav-dropdown,
+.nav-item--dropdown:focus-within .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-link {
+  display: block;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-dropdown-link:hover,
+.nav-dropdown-link--active {
+  color: var(--color-red);
+  background: rgba(var(--rgb-accent), 0.08);
+}
+
+.nav-cta {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    height: 2.375rem;
+  }
+
+  .logo-text strong {
+    font-size: 1.125rem;
+  }
+
+  .menu-toggle {
+    display: flex;
+    position: relative;
+    z-index: 132;
+  }
+
+  .header--menu-open {
+    z-index: 130;
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 4px 24px rgba(var(--rgb-navy), 0.12);
+  }
+
+  .nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 118;
+    margin: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background: rgba(10, 24, 48, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: nav-scrim-in 0.28s var(--ease-luxe) forwards;
+  }
+
+  @keyframes nav-scrim-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .nav {
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: min(22rem, 100%);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 2rem 1.75rem 2.5rem;
+    z-index: 120;
+    background: #ffffff;
+    border-top: 1px solid rgba(var(--rgb-navy), 0.08);
+    border-left: 1px solid rgba(var(--rgb-accent), 0.12);
+    box-shadow:
+      -16px 0 48px rgba(var(--rgb-navy), 0.22),
+      inset 1px 0 0 rgba(255, 255, 255, 0.95);
+    transform: translateX(100%);
+    transition: transform 0.35s var(--ease-luxe);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .nav--open {
+    transform: translateX(0);
+  }
+
+  .nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-red) 20%,
+      var(--color-blue-light) 80%,
+      transparent
+    );
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 1.0625rem;
+  }
+
+  .nav-item--dropdown {
+    width: 100%;
+  }
+
+  .nav-link--trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    font-size: 1.0625rem;
+  }
+
+  .nav-dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 0 0.75rem;
+    margin-top: 0.25rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-dropdown--open {
+    max-height: 8rem;
+  }
+
+  .nav-dropdown-link {
+    padding: 0.625rem 1rem;
+  }
+
+  .nav-cta {
+    width: 100%;
+  }
+}
