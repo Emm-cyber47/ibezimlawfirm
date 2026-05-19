@@ -225,7 +225,8 @@ export default function Resources() {
           </div>
 
           <aside className="resources-sidebar">
-            <div className="sidebar-widget">
+            <div className="sidebar-widget luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Search</h3>
               <form className={`sidebar-search ${searchError ? 'sidebar-search--error' : ''}`} onSubmit={handleSearch}>
                 <input
@@ -255,7 +256,8 @@ export default function Resources() {
               )}
             </div>
 
-            <div className="sidebar-widget">
+            <div className="sidebar-widget luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Recent posts</h3>
               <ul className="sidebar-recent">
                 {recentPosts.map((post) => (
@@ -272,7 +274,8 @@ export default function Resources() {
               </ul>
             </div>
 
-            <div className="sidebar-widget">
+            <div className="sidebar-widget luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Categories</h3>
               <ul className="sidebar-categories">
                 <li>
@@ -300,7 +303,8 @@ export default function Resources() {
               </ul>
             </div>
 
-            <div className="sidebar-widget">
+            <div className="sidebar-widget luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Tag cloud</h3>
               <div className="sidebar-tags">
                 {blogTags.map((tag) => (

@@ -1,0 +1,289 @@
+/**
+ * Site-wide luxe card system — photo-less panels, widgets, and text cards.
+ */
+
+.luxe-card,
+.value-item,
+.about-value-card,
+.why-choose-card,
+.testimonial-tile,
+.faq-item,
+.sidebar-widget,
+.blog-comment-item,
+.blog-comment-form,
+.blog-comment-gate,
+.attorney-sidebar-card,
+.contact-info-card,
+.contact-social-card,
+.team-card,
+.card:not(.practice-card):not(.resource-card):not(.blog-card) {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.99) 0%,
+    rgba(255, 255, 255, 0.94) 48%,
+    rgba(247, 245, 240, 0.92) 100%
+  );
+  border: 1px solid rgba(var(--rgb-navy), 0.08);
+  border-top: 3px solid var(--color-red);
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(var(--rgb-navy), 0.03);
+  transition:
+    transform 0.4s var(--ease-luxe),
+    box-shadow 0.4s var(--ease-luxe),
+    border-color 0.35s var(--ease-luxe);
+}
+
+.luxe-card::before,
+.value-item::before,
+.about-value-card::before,
+.why-choose-card::before,
+.testimonial-tile::before,
+.faq-item::before,
+.sidebar-widget::before,
+.blog-comment-item::before,
+.blog-comment-form::before,
+.blog-comment-gate::before,
+.attorney-sidebar-card::before,
+.contact-info-card::before,
+.contact-social-card::before,
+.team-card::before,
+.card:not(.practice-card):not(.resource-card):not(.blog-card)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%230c1f3d' stroke-opacity='0.045' stroke-width='0.5'%3E%3Cpath d='M20 0 L40 20 L20 40 L0 20 Z'/%3E%3Cpath d='M20 0 V40 M0 20 H40'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.luxe-card-shine,
+.value-item > .luxe-card-shine,
+.about-value-card > .luxe-card-shine,
+.testimonial-tile > .luxe-card-shine,
+.faq-item > .luxe-card-shine,
+.sidebar-widget > .luxe-card-shine,
+.blog-comment-item > .luxe-card-shine,
+.blog-comment-form > .luxe-card-shine,
+.blog-comment-gate > .luxe-card-shine,
+.attorney-sidebar-card > .luxe-card-shine,
+.contact-info-card > .luxe-card-shine,
+.contact-social-card > .luxe-card-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.75s var(--ease-luxe);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.luxe-card:hover,
+.value-item:hover,
+.about-value-card:hover,
+.why-choose-card:hover,
+.testimonial-tile:hover,
+.faq-item--open,
+.faq-item:hover,
+.sidebar-widget:hover,
+.blog-comment-item:hover,
+.attorney-sidebar-card:hover,
+.contact-info-card:hover,
+.contact-social-card:hover,
+.team-card:hover,
+.card:not(.practice-card):not(.resource-card):not(.blog-card):hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-luxe);
+  border-top-color: var(--color-red-light);
+  border-color: rgba(var(--rgb-accent), 0.22);
+}
+
+.luxe-card:hover .luxe-card-shine,
+.value-item:hover .luxe-card-shine,
+.about-value-card:hover .luxe-card-shine,
+.testimonial-tile:hover .luxe-card-shine,
+.faq-item:hover .luxe-card-shine,
+.faq-item--open .luxe-card-shine,
+.sidebar-widget:hover .luxe-card-shine,
+.blog-comment-item:hover .luxe-card-shine,
+.attorney-sidebar-card:hover .luxe-card-shine,
+.contact-info-card:hover .luxe-card-shine,
+.contact-social-card:hover .luxe-card-shine {
+  transform: translateX(120%);
+}
+
+/* Top gloss when no shine span */
+.luxe-card:not(:has(.luxe-card-shine))::after,
+.value-item:not(:has(.luxe-card-shine))::after,
+.about-value-card:not(:has(.luxe-card-shine))::after,
+.testimonial-tile:not(:has(.luxe-card-shine))::after,
+.faq-item:not(:has(.luxe-card-shine))::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 42%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.luxe-card-inner,
+.luxe-card > *:not(.luxe-card-shine):not(.luxe-card-mesh):not(.luxe-card-num):not(.luxe-card-icon) {
+  position: relative;
+  z-index: 2;
+}
+
+.luxe-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 1.125rem;
+  color: var(--color-red);
+  background: linear-gradient(
+    145deg,
+    rgba(var(--rgb-accent), 0.12) 0%,
+    rgba(var(--rgb-accent), 0.06) 100%
+  );
+  border: 1px solid rgba(var(--rgb-accent), 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.luxe-card-icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.luxe-card-num {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.875rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-blue);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.luxe-card-title {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.22;
+  color: var(--color-blue);
+  margin-bottom: 0.625rem;
+}
+
+.luxe-card-text {
+  font-size: 0.96875rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.luxe-card-kicker {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-red);
+  margin-bottom: 0.5rem;
+}
+
+/* Value / trust cards on home & about */
+.value-item,
+.about-value-card {
+  padding: 1.875rem 1.625rem 1.75rem;
+  border-radius: 2px;
+}
+
+.values-grid {
+  gap: 1.5rem;
+}
+
+.value-item h3,
+.about-value-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--color-blue);
+  margin-bottom: 0.625rem;
+}
+
+.value-item p,
+.about-value-card p {
+  font-size: 0.96875rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+/* FAQ open state */
+.faq-item--open {
+  transform: none;
+}
+
+/* Dark-section cards (why choose) keep white face */
+.why-choose-card {
+  border-radius: 2px;
+}
+
+/* Sidebar widgets */
+.sidebar-widget {
+  padding: 1.5rem 1.375rem;
+}
+
+.sidebar-widget h3 {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--color-blue);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.875rem;
+  border-bottom: 1px solid rgba(var(--rgb-navy), 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luxe-card,
+  .value-item,
+  .about-value-card,
+  .why-choose-card,
+  .testimonial-tile,
+  .faq-item,
+  .sidebar-widget,
+  .blog-comment-item,
+  .attorney-sidebar-card,
+  .contact-info-card,
+  .team-card,
+  .card:not(.practice-card):not(.resource-card):not(.blog-card) {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .luxe-card:hover,
+  .value-item:hover,
+  .about-value-card:hover,
+  .why-choose-card:hover,
+  .testimonial-tile:hover,
+  .contact-info-card:hover {
+    transform: none;
+  }
+
+  .luxe-card-shine {
+    display: none;
+  }
+}

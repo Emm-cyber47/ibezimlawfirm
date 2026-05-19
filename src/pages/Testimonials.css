@@ -51,20 +51,15 @@
 }
 
 .testimonial-tile {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  padding: 1.5rem 1.375rem;
+  border-radius: 2px;
+  padding: 1.625rem 1.5rem;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
 }
 
-.testimonial-tile:hover {
-  border-color: rgba(var(--rgb-accent), 0.4);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+.testimonial-tile > *:not(.luxe-card-shine) {
+  position: relative;
+  z-index: 2;
 }
 
 /* Masonry-style stagger: taller cards in column flow */
@@ -94,8 +89,8 @@
   margin: 0 0 1.25rem;
   padding: 0;
   border: none;
-  font-size: 0.9375rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.75;
   color: var(--color-text-muted);
 }
 
@@ -183,17 +178,17 @@
 }
 
 .faq-item {
-  background: var(--color-cream);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 2px;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.faq-item > *:not(.luxe-card-shine) {
+  position: relative;
+  z-index: 2;
 }
 
 .faq-item--open {
-  border-color: rgba(var(--rgb-accent), 0.45);
-  box-shadow: var(--shadow-sm);
-  background: var(--color-white);
+  transform: none;
 }
 
 .faq-trigger {

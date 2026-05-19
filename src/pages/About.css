@@ -1,3 +1,178 @@
+/* —— About page (reference layout) —— */
+.about-page {
+  padding-block: clamp(3rem, 6vw, 5rem);
+  background: var(--color-white);
+}
+
+.about-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+/* 2×2 image grid */
+.about-page-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.375rem;
+  margin: 0;
+}
+
+.about-page-gallery-item {
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-cream);
+  line-height: 0;
+}
+
+.about-page-gallery-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.45s var(--ease-luxe);
+}
+
+.about-page-gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+/* Content column */
+.about-page-content {
+  position: relative;
+  min-width: 0;
+}
+
+.about-page-watermark {
+  position: absolute;
+  top: -1rem;
+  right: 0;
+  width: clamp(8rem, 18vw, 11rem);
+  height: clamp(8rem, 18vw, 11rem);
+  color: var(--color-blue);
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-page-watermark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.about-page-content > :not(.about-page-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.about-page-label {
+  margin-bottom: 0.75rem;
+}
+
+.about-page-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.2vw, 2.375rem);
+  font-weight: 600;
+  line-height: 1.22;
+  color: var(--color-blue);
+  margin-bottom: 1.5rem;
+  max-width: 22ch;
+}
+
+.about-page-text {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  margin-bottom: 1.25rem;
+  max-width: 36rem;
+}
+
+.about-page-text:last-of-type {
+  margin-bottom: 2rem;
+}
+
+/* Practice areas list */
+.about-page-areas {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.about-page-area-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: color 0.25s var(--ease-luxe);
+}
+
+.about-page-area-link:hover {
+  color: var(--color-red);
+}
+
+.about-page-area-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
+.about-page-area-icon svg {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+@media (max-width: 900px) {
+  .about-page-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .about-page-title {
+    max-width: none;
+  }
+
+  .about-page-watermark {
+    top: 0;
+    right: 0.5rem;
+    opacity: 0.05;
+  }
+}
+
+@media (max-width: 520px) {
+  .about-page-areas {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .about-page-gallery-item img {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page-gallery-item img {
+    transition: none;
+  }
+
+  .about-page-gallery-item:hover img {
+    transform: none;
+  }
+}
+
+/* —— Hero banner —— */
 .about-hero {
   padding-block: 3rem 2.75rem;
 }
@@ -39,6 +214,7 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* —— Story + office gallery —— */
 .about-story {
   padding-block: 4rem;
   background: var(--color-cream);
@@ -99,6 +275,7 @@
   background: var(--color-white);
 }
 
+/* —— Values —— */
 .about-values {
   background: var(--color-white);
 }
@@ -117,29 +294,11 @@
 }
 
 .about-value-card {
-  background: var(--color-cream);
-  border: 1px solid var(--color-border);
-  padding: 1.75rem 1.5rem;
   text-align: center;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.about-value-card:hover {
-  border-color: rgba(var(--rgb-accent), 0.45);
-  box-shadow: var(--shadow-sm);
-}
-
-.about-value-card h3 {
-  font-family: var(--font-display);
-  font-size: 1.375rem;
-  color: var(--color-navy);
-  margin-bottom: 0.5rem;
-}
-
-.about-value-card p {
-  font-size: 0.9375rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
+.about-value-card .luxe-card-icon {
+  margin-inline: auto;
 }
 
 @media (max-width: 900px) {

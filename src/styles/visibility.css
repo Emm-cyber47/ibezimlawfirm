@@ -1,0 +1,198 @@
+/**
+ * Global visibility — brighter surfaces, stronger text contrast.
+ */
+
+html {
+  color-scheme: light;
+}
+
+/* —— Light sections —— */
+.section--practice-areas,
+.about-story,
+.testimonials-wall {
+  background: linear-gradient(180deg, #fdfcfa 0%, var(--color-white) 100%) !important;
+}
+
+.section[style*='background: var(--color-white)'],
+.about-values,
+.testimonials-faq {
+  background: var(--color-white) !important;
+}
+
+/* —— Page heroes (dark) —— */
+.page-hero .section-lead,
+.page-hero .section-title,
+.cta-band .section-lead,
+.cta-band .section-title {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+}
+
+.page-hero .section-lead,
+.cta-band .section-lead {
+  color: var(--color-text-on-dark-muted);
+}
+
+.page-hero .section-label,
+.cta-band .section-label {
+  color: var(--color-red-light);
+}
+
+/* —— Home hero copy —— */
+.hero-home .section-label {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.hero-home .section-lead {
+  color: var(--color-text-on-dark-muted);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+
+.hero-home h1,
+.hero-headline-carousel-title {
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Slightly lighter video overlay so copy reads clearer */
+.hero-home .hero-home-media-overlay {
+  background-image:
+    var(--luxe-gloss-top),
+    var(--luxe-gloss-sweep),
+    linear-gradient(
+      105deg,
+      rgba(var(--rgb-navy), 0.82) 0%,
+      rgba(var(--rgb-navy), 0.68) 45%,
+      rgba(var(--rgb-accent), 0.28) 100%
+    ),
+    var(--luxe-net-svg) !important;
+}
+
+/* —— Header —— */
+.header {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom-color: var(--color-border) !important;
+  box-shadow: 0 2px 16px rgba(var(--rgb-navy), 0.08) !important;
+}
+
+.nav-link {
+  color: var(--color-text);
+}
+
+.nav-link--active,
+.nav-link:hover {
+  color: var(--color-red);
+}
+
+/* —— Cards & panels —— */
+.luxe-card,
+.value-item,
+.about-value-card,
+.why-choose-card,
+.testimonial-tile,
+.faq-item,
+.sidebar-widget,
+.blog-comment-item,
+.blog-comment-form,
+.blog-comment-gate,
+.attorney-sidebar-card,
+.contact-info-card,
+.contact-social-card,
+.team-card,
+.card:not(.practice-card):not(.resource-card):not(.blog-card) {
+  background: linear-gradient(
+    168deg,
+    #ffffff 0%,
+    #ffffff 55%,
+    #faf9f6 100%
+  ) !important;
+  border-color: rgba(var(--rgb-navy), 0.12) !important;
+}
+
+.luxe-card-text,
+.value-item p,
+.about-value-card p,
+.testimonial-tile blockquote,
+.blog-comment-item p,
+.card p {
+  color: var(--color-text-muted);
+}
+
+/* —— Forms —— */
+input:not([type='checkbox']):not([type='radio']),
+textarea,
+select {
+  background: #ffffff !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7380;
+  opacity: 1;
+}
+
+/* —— Footer & dark UI text —— */
+.footer,
+.cta-band {
+  color: var(--color-text-on-dark);
+}
+
+.footer a,
+.footer p {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* —— Practice cards — slightly punchier imagery —— */
+.practice-card-bg {
+  filter: contrast(1.06) saturate(1.08);
+}
+
+.practice-card-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--rgb-navy), 0.2) 0%,
+    rgba(var(--rgb-navy), 0.5) 40%,
+    rgba(var(--rgb-navy), 0.92) 100%
+  ) !important;
+}
+
+.practice-card-body p {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* —— Resource / blog cards with images —— */
+.resource-card-excerpt,
+.blog-excerpt,
+.resource-card-date {
+  color: var(--color-text-muted);
+}
+
+/* —— Home about panel —— */
+.home-about-excerpt,
+.home-about-content {
+  color: var(--color-text-muted);
+}
+
+.home-about-title {
+  color: var(--color-blue);
+}
+
+/* —— About page text —— */
+.about-page-text,
+.about-story-text p {
+  color: var(--color-text-muted);
+}
+
+/* —— Why choose — on dark bg —— */
+.why-choose-card-text {
+  color: var(--color-text);
+}
+
+.why-choose-card-title {
+  color: var(--color-blue);
+}
+
+/* —— Testimonials hero —— */
+.testimonials-page-hero p {
+  color: var(--color-text-on-dark-muted);
+}

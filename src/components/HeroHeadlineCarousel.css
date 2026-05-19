@@ -1,0 +1,84 @@
+.hero-headline-carousel {
+  margin-bottom: 0;
+}
+
+.hero-headline-carousel-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-white);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+  margin: 0;
+}
+
+.hero-headline-carousel-track {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.hero-headline-slide {
+  grid-area: 1 / 1;
+  display: block;
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.65s var(--ease-luxe),
+    transform 0.65s var(--ease-luxe);
+  pointer-events: none;
+}
+
+.hero-headline-slide--active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hero-headline-slide em {
+  font-style: italic;
+  color: var(--color-gold);
+}
+
+.hero-headline-carousel-dots {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.hero-headline-dot {
+  width: 2rem;
+  height: 3px;
+  padding: 0;
+  border: none;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition:
+    background 0.35s var(--ease-luxe),
+    width 0.35s var(--ease-luxe);
+}
+
+.hero-headline-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.hero-headline-dot--active {
+  width: 2.75rem;
+  background: var(--color-gold);
+}
+
+.hero-headline-dot:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-headline-slide {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+
+  .hero-headline-slide:not(.hero-headline-slide--active) {
+    display: none;
+  }
+}

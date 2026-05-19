@@ -11,6 +11,78 @@ export const firm = {
     'https://www.google.com/maps/dir/?api=1&destination=1182+Clinton+Ave,+Irvington,+NJ+07111,+USA',
 } as const
 
+/** Rotating hero headlines (Home) */
+export const heroHeadlines = [
+  {
+    primary: 'Clear counsel.',
+    accent: 'Strong advocacy.',
+  },
+  {
+    primary: 'High-caliber representation',
+    accent: 'from the best.',
+  },
+  {
+    primary: 'Dedicated to efficient and',
+    accent: 'effective resolution of cases.',
+  },
+] as const
+
+/** Home — about preview (below hero) */
+export const homeAboutSection = {
+  label: 'About Ibezim Law',
+  title: 'We Always Fight For Your Justice.',
+  excerpt:
+    'For more than two decades, Ibezim Law Offices has delivered strategic counsel across personal injury, immigration, and complex civil matters—with integrity, rigorous preparation, and a relentless focus on results for every client we represent.',
+  highlights: [
+    { label: 'Excellent Legal Services', icon: 'justice' as const },
+    { label: 'Expert Attorneys', icon: 'attorney' as const },
+    { label: 'Superb Success Rate', icon: 'gavel' as const },
+    { label: 'Highly Recommend', icon: 'recommend' as const },
+    { label: 'Truly Result Oriented', icon: 'results' as const },
+    { label: 'Highly Knowledgeable', icon: 'education' as const },
+  ],
+} as const
+
+/** Home — Why Choose Us */
+export const whyChooseUs = {
+  eyebrow: 'The Big Question',
+  title: 'Why Ibezim Law?',
+  reasons: [
+    {
+      title: 'Accessible',
+      text: 'We are easily accessible, no machines or answering service. You will reach an attorney.',
+      icon: 'accessible' as const,
+    },
+    {
+      title: 'Personable',
+      text: 'Personal service. We treat every case like it’s our personal case, and no case is too big or too small.',
+      icon: 'personable' as const,
+    },
+    {
+      title: 'Experience',
+      text: 'We are very knowledgeable, and we take the time to educate you on your case with our years of experience, because we believe that the educated client makes our job easier.',
+      icon: 'experience' as const,
+    },
+    {
+      title: 'Communication',
+      text: 'We communicate to you on every step of your case, so that you are well informed.',
+      icon: 'communication' as const,
+    },
+    {
+      title: 'Results',
+      text: 'Our goal is to get you the best results on your case, so that you are very satisfied.',
+      icon: 'results' as const,
+    },
+  ],
+} as const
+
+/** Trust strip pillars below header (Home) */
+export const heroTrustPillars = [
+  { num: '01', label: 'Accessible', icon: 'accessible' as const },
+  { num: '02', label: 'Experienced', icon: 'experienced' as const },
+  { num: '03', label: 'Results', icon: 'results' as const },
+] as const
+
 /** Update with your live profile URLs */
 export const socialLinks = {
   facebook: 'https://web.facebook.com/sebastian.ibezim.7?_rdc=1&_rdr#',
@@ -277,18 +349,39 @@ export const practiceAreas = [
   },
 ] as const
 
+/** About page — main content block */
+export const aboutPage = {
+  label: 'About Us',
+  title: 'Dedicated to Efficient, Effective Resolution of Cases',
+  paragraphs: [
+    'Our attorneys have over twenty-three years of experience, and very knowledgeable in what we do. We are very results oriented because we realize that is our client’s main objective, therefore we fight for you with all we have.',
+    'The Ibezim Law firm’s primary objective is to help you resolve your legal dispute quickly and effectively.',
+  ],
+  featuredPracticeAreas: [
+    'Personal Injury',
+    'Medical Malpractice',
+    'Immigration',
+    'Traffic Matters',
+    'Real Estate Matters',
+    'Uncontested Divorce',
+  ],
+} as const
+
 export const values = [
   {
     title: 'Integrity',
     text: 'We uphold the highest ethical standards in every matter we handle.',
+    icon: 'integrity' as const,
   },
   {
     title: 'Excellence',
     text: 'Rigorous preparation and sharp advocacy define our approach to the law.',
+    icon: 'excellence' as const,
   },
   {
     title: 'Client Focus',
     text: 'Your goals guide our strategy—we communicate clearly and act decisively.',
+    icon: 'client' as const,
   },
 ] as const
 

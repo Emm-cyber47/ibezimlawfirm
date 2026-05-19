@@ -1,0 +1,5 @@
+/* Component-specific overrides — base styles in luxe-cards.css */
+.luxe-card-inner {
+  position: relative;
+  z-index: 2;
+}

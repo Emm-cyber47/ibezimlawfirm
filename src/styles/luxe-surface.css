@@ -211,7 +211,7 @@
 }
 
 .cta-band .section-lead {
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-text-on-dark-muted);
   margin-inline: auto;
   margin-bottom: 1.75rem;
   max-width: 36rem;
@@ -316,11 +316,11 @@
 }
 
 .page-hero.resource-post-hero .article-lead {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-on-dark-muted);
 }
 
 .page-hero.resource-post-hero .article-meta {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .attorney-hero .section-title,
@@ -329,7 +329,7 @@
 }
 
 .about-hero-content .section-lead {
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-text-on-dark-muted);
 }
 
 @media (max-width: 768px) {

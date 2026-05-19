@@ -6,6 +6,9 @@ import App from './App.tsx'
 import './index.css'
 import './styles/luxe-surface.css'
 import './styles/glossy-ui.css'
+import './styles/luxe-cards.css'
+import './styles/responsive.css'
+import './styles/visibility.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

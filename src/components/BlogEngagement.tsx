@@ -163,7 +163,8 @@ export default function BlogEngagement({ slug, title, excerpt }: BlogEngagementP
         </h2>
 
         {user ? (
-          <form className="blog-comment-form" onSubmit={handleCommentSubmit} noValidate>
+          <form className="blog-comment-form luxe-card" onSubmit={handleCommentSubmit} noValidate>
+            <span className="luxe-card-shine" aria-hidden />
             <p className="blog-comment-as">
               Posting as <strong>{displayNameFromUser(user)}</strong>
             </p>
@@ -207,8 +208,9 @@ export default function BlogEngagement({ slug, title, excerpt }: BlogEngagementP
             )}
           </form>
         ) : (
-          <div className="blog-comment-gate">
-            <p className="blog-comment-gate-title">Join the conversation</p>
+          <div className="blog-comment-gate luxe-card">
+            <span className="luxe-card-shine" aria-hidden />
+            <p className="blog-comment-gate-title luxe-card-title">Join the conversation</p>
             <p className="blog-comment-gate-lead">
               Comments are available to signed-in clients only. You can still react to this article
               and share it—no account required for those.
@@ -229,7 +231,8 @@ export default function BlogEngagement({ slug, title, excerpt }: BlogEngagementP
         ) : (
           <ul className="blog-comments-list">
             {engagement.comments.map((comment) => (
-              <li key={comment.id} className="blog-comment-item">
+              <li key={comment.id} className="blog-comment-item luxe-card">
+                <span className="luxe-card-shine" aria-hidden />
                 <header>
                   <strong>{comment.name}</strong>
                   <time dateTime={comment.createdAt}>

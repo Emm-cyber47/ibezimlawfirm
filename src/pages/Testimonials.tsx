@@ -33,7 +33,8 @@ function FaqAccordion() {
       {faqs.map((item) => {
         const isOpen = openId === item.id
         return (
-          <div key={item.id} className={`faq-item ${isOpen ? 'faq-item--open' : ''}`}>
+          <div key={item.id} className={`faq-item luxe-card ${isOpen ? 'faq-item--open' : ''}`}>
+            <span className="luxe-card-shine" aria-hidden />
             <button
               type="button"
               className="faq-trigger"
@@ -75,8 +76,9 @@ export default function Testimonials() {
             {testimonials.map((item, index) => (
               <article
                 key={item.id}
-                className={`testimonial-tile testimonial-tile--${index + 1}`}
+                className={`testimonial-tile luxe-card testimonial-tile--${index + 1}`}
               >
+                <span className="luxe-card-shine" aria-hidden />
                 <StarRating count={item.rating} />
                 <blockquote>{item.quote}</blockquote>
                 <footer className="testimonial-tile-author">

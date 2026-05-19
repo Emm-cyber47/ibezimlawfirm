@@ -1,5 +1,11 @@
 import { Link } from 'react-router-dom'
+import HeroHeadlineCarousel from '../components/HeroHeadlineCarousel.tsx'
+import HeroTrustBar from '../components/HeroTrustBar.tsx'
+import HomeAboutSection from '../components/HomeAboutSection.tsx'
 import PracticeAreaCard from '../components/PracticeAreaCard.tsx'
+import LuxeCard from '../components/LuxeCard.tsx'
+import LuxeCardIcon from '../components/LuxeCardIcon.tsx'
+import WhyChooseUs from '../components/WhyChooseUs.tsx'
 import { firm, practiceAreas, values } from '../data/site'
 import attorneyPortrait from '../ibezim.jpg'
 import heroVideo from '../video.mp4'
@@ -9,6 +15,7 @@ export default function Home() {
   return (
     <>
       <section className="page-hero hero-home">
+        <HeroTrustBar />
         <div className="hero-home-split">
           <div className="hero-home-media">
             <video
@@ -25,9 +32,7 @@ export default function Home() {
             <div className="hero-home-content">
               <span className="hero-home-rule" aria-hidden="true" />
               <span className="section-label">{firm.tagline}</span>
-              <h1>
-                Clear counsel. <em>Strong advocacy.</em>
-              </h1>
+              <HeroHeadlineCarousel />
               <span className="hero-home-rule hero-home-rule--short" aria-hidden="true" />
               <p className="section-lead">
                 {firm.name} serves individuals and businesses across the US with integrity,
@@ -55,6 +60,8 @@ export default function Home() {
         <span className="hero-home-bottom-bar" aria-hidden="true" />
       </section>
 
+      <HomeAboutSection />
+
       <section className="section section--practice-areas">
         <div className="container">
           <span className="section-label">What We Do</span>
@@ -80,16 +87,23 @@ export default function Home() {
         </div>
       </section>
 
+      <WhyChooseUs />
+
       <section className="section" style={{ background: 'var(--color-white)' }}>
         <div className="container">
           <span className="section-label">Our Approach</span>
           <h2 className="section-title">Built on Trust</h2>
           <div className="values-grid" style={{ marginTop: '2rem' }}>
-            {values.map(({ title, text }) => (
-              <div key={title} className="value-item">
-                <h3>{title}</h3>
-                <p className="section-lead">{text}</p>
-              </div>
+            {values.map(({ title, text, icon }, index) => (
+              <LuxeCard
+                key={title}
+                className="value-item"
+                icon={<LuxeCardIcon type={icon} />}
+                num={String(index + 1).padStart(2, '0')}
+              >
+                <h3 className="luxe-card-title">{title}</h3>
+                <p className="luxe-card-text">{text}</p>
+              </LuxeCard>
             ))}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { firm, navLinks } from '../data/site'
 import logoImg from '../ibezimlogo.png'
@@ -17,18 +17,42 @@ export default function Header() {
   const [aboutMobileOpen, setAboutMobileOpen] = useState(false)
   const { pathname } = useLocation()
   const { user } = useAuth()
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
+  const navRef = useRef<HTMLElement>(null)
+
+  const [isMobileNav, setIsMobileNav] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
+  )
 
   function closeAboutDropdown() {
     setAboutOpen(false)
     setAboutMobileOpen(false)
   }
 
+  function returnFocusToMenuToggle() {
+    menuToggleRef.current?.focus({ preventScroll: true })
+  }
+
   function closeMenu() {
+    if (isMobileNav) {
+      returnFocusToMenuToggle()
+    }
     setMenuOpen(false)
     closeAboutDropdown()
   }
 
+  function toggleMenu() {
+    setMenuOpen((open) => {
+      if (open) {
+        returnFocusToMenuToggle()
+        return false
+      }
+      return true
+    })
+  }
+
   useEffect(() => {
+    setMenuOpen(false)
     closeAboutDropdown()
   }, [pathname])
 
@@ -40,6 +64,23 @@ export default function Header() {
       document.body.style.overflow = prev
     }
   }, [menuOpen])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const onChange = () => setIsMobileNav(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  /* Fallback if focus remains inside nav after it becomes inert */
+  useEffect(() => {
+    if (!isMobileNav || menuOpen) return
+    const nav = navRef.current
+    if (nav?.contains(document.activeElement)) {
+      returnFocusToMenuToggle()
+    }
+  }, [menuOpen, isMobileNav])
 
   return (
     <header className={`header${menuOpen ? ' header--menu-open' : ''}`}>
@@ -62,18 +103,34 @@ export default function Header() {
         </Link>
 
         <button
+          ref={menuToggleRef}
           type="button"
           className="menu-toggle"
           aria-expanded={menuOpen}
+          aria-controls="site-navigation"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={toggleMenu}
         >
           <span />
           <span />
           <span />
         </button>
 
-        <nav className={`nav ${menuOpen ? 'nav--open' : ''}`} aria-hidden={!menuOpen}>
+        <nav
+          ref={navRef}
+          className={`nav ${menuOpen ? 'nav--open' : ''}`}
+          id="site-navigation"
+          inert={isMobileNav && !menuOpen ? true : undefined}
+          aria-label="Main navigation"
+        >
+          <div className="nav-mobile-toolbar">
+            <span className="nav-mobile-title">Menu</span>
+            <button type="button" className="nav-mobile-close" onClick={closeMenu} aria-label="Close menu">
+              ×
+            </button>
+          </div>
+
+          <div className="nav-mobile-scroll">
           <ul className="nav-list">
             {navLinks.map((item) => {
               if ('children' in item && item.children) {
@@ -139,7 +196,10 @@ export default function Header() {
               )
             })}
           </ul>
-          {user ? <UserMenu menuOpen={menuOpen} onNavigate={closeMenu} /> : <AuthDropdown menuOpen={menuOpen} />}
+          <div className="nav-mobile-auth">
+            {user ? <UserMenu menuOpen={menuOpen} onNavigate={closeMenu} /> : <AuthDropdown menuOpen={menuOpen} />}
+          </div>
+          </div>
         </nav>
       </div>
     </header>

@@ -169,18 +169,15 @@
 }
 
 .contact-info-card {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  padding: 1.25rem 1.375rem;
+  padding: 1.375rem 1.5rem;
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.contact-info-card:hover {
-  border-color: rgba(var(--rgb-accent), 0.45);
-  box-shadow: var(--shadow-sm);
+.contact-info-card > *:not(.luxe-card-shine) {
+  position: relative;
+  z-index: 2;
 }
 
 .contact-info-icon {

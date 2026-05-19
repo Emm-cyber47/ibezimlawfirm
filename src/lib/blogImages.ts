@@ -1,7 +1,7 @@
 import officeImg from '../office.jpg'
 import doorImg from '../door.jpg'
 import receptionImg from '../reception.jpg'
-import outdoorImg from '../officeoutdoor.jpg'
+import outdoorImg from '../officeoutdoor.jpeg'
 import { blogPosts } from '../data/site'
 
 export const blogImages = {

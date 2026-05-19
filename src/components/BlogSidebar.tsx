@@ -13,7 +13,8 @@ export default function BlogSidebar({ currentSlug }: BlogSidebarProps) {
 
   return (
     <aside className="resources-sidebar resource-post-sidebar" aria-label="Blog sidebar">
-      <div className="sidebar-widget">
+      <div className="sidebar-widget luxe-card">
+        <span className="luxe-card-shine" aria-hidden />
         <h3>Recent posts</h3>
         <ul className="sidebar-recent">
           {recentPosts.map((post) => (
@@ -30,7 +31,8 @@ export default function BlogSidebar({ currentSlug }: BlogSidebarProps) {
         </ul>
       </div>
 
-      <div className="sidebar-widget">
+      <div className="sidebar-widget luxe-card">
+        <span className="luxe-card-shine" aria-hidden />
         <h3>Categories</h3>
         <ul className="sidebar-categories sidebar-categories--links">
           <li>

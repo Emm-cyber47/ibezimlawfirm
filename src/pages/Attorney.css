@@ -113,10 +113,12 @@
 }
 
 .attorney-sidebar-card {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  padding: 1.25rem 1.375rem;
-  box-shadow: var(--shadow-sm);
+  padding: 1.375rem 1.5rem;
+}
+
+.attorney-sidebar-card > *:not(.luxe-card-shine) {
+  position: relative;
+  z-index: 2;
 }
 
 .attorney-sidebar-card--accent {

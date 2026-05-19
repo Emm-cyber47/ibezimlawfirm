@@ -9,21 +9,33 @@
 }
 
 .page-hero .section-lead {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-on-dark-muted);
+}
+
+.page-hero.hero-home {
+  padding: 0;
+  margin: 0;
 }
 
 .hero-home {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   padding: 0;
+  margin: 0;
   min-height: min(92vh, 44rem);
-  background: var(--color-navy);
+  background: transparent;
   overflow: hidden;
 }
 
 .hero-home-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(16rem, 34%);
-  min-height: min(92vh, 44rem);
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: min(calc(92vh - 4.75rem), calc(44rem - 4.75rem));
+  margin: 0;
 }
 
 .hero-home-media {
@@ -55,7 +67,7 @@
 .hero-home-content {
   position: relative;
   z-index: 2;
-  padding: calc(var(--header-height) + 2.5rem) clamp(1.5rem, 5vw, 4rem) 3.5rem;
+  padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 3.5rem;
   max-width: 36rem;
 }
 
@@ -72,21 +84,6 @@
   width: 1px;
   height: 2.5rem;
   margin: 0 0 1.5rem;
-}
-
-.hero-home h1 {
-  font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--color-white);
-  margin-bottom: 0;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
-}
-
-.hero-home h1 em {
-  font-style: italic;
-  color: var(--color-gold);
 }
 
 .hero-home .section-label {
@@ -136,7 +133,7 @@
 .hero-home-portrait img {
   width: 100%;
   height: 100%;
-  min-height: min(92vh, 44rem);
+  min-height: min(calc(92vh - 4.75rem), calc(44rem - 4.75rem));
   object-fit: cover;
   object-position: top center;
 }
@@ -246,21 +243,8 @@
 }
 
 .card {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-top: 3px solid transparent;
   padding: 1.75rem;
-  box-shadow: var(--shadow-sm);
-  transition:
-    box-shadow 0.3s var(--ease-luxe),
-    transform 0.3s var(--ease-luxe),
-    border-color 0.3s var(--ease-luxe);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-luxe);
-  transform: translateY(-3px);
-  border-top-color: var(--color-red);
+  border-radius: 2px;
 }
 
 .card h3 {
@@ -272,7 +256,8 @@
 
 .card p {
   color: var(--color-text-muted);
-  font-size: 0.9375rem;
+  font-size: 0.96875rem;
+  line-height: 1.7;
 }
 
 .values-grid {

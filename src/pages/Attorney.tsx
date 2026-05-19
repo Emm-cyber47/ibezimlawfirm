@@ -48,7 +48,8 @@ export default function Attorney() {
             ))}
           </div>
           <aside className="attorney-sidebar">
-            <div className="attorney-sidebar-card">
+            <div className="attorney-sidebar-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Bar admissions</h3>
               <ul>
                 {attorney.admissions.map((item) => (
@@ -56,7 +57,8 @@ export default function Attorney() {
                 ))}
               </ul>
             </div>
-            <div className="attorney-sidebar-card">
+            <div className="attorney-sidebar-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Education</h3>
               <ul>
                 {attorney.education.map((item) => (
@@ -64,7 +66,8 @@ export default function Attorney() {
                 ))}
               </ul>
             </div>
-            <div className="attorney-sidebar-card attorney-sidebar-card--accent">
+            <div className="attorney-sidebar-card attorney-sidebar-card--accent luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Practice highlights</h3>
               <ul>
                 {attorney.highlights.map((item) => (

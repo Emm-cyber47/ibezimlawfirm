@@ -311,7 +311,8 @@ export default function Contact() {
           </div>
 
           <aside className="contact-aside" aria-label="Office information">
-            <div className="contact-social-card">
+            <div className="contact-social-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <h3>Connect with us</h3>
               <p>Follow {firm.name} for updates, legal insights, and firm news.</p>
               <SocialLinks variant="contact" />
@@ -325,7 +326,8 @@ export default function Contact() {
                 <li>No obligation after initial consultation</li>
               </ul>
             </div>
-            <div className="contact-info-card">
+            <div className="contact-info-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <div className="contact-info-icon">
                 <IconPhone />
               </div>
@@ -334,7 +336,8 @@ export default function Contact() {
                 <a href={phoneHref}>{firm.phone}</a>
               </div>
             </div>
-            <div className="contact-info-card">
+            <div className="contact-info-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <div className="contact-info-icon">
                 <IconMail />
               </div>
@@ -343,7 +346,8 @@ export default function Contact() {
                 <a href={`mailto:${firm.email}`}>{firm.email}</a>
               </div>
             </div>
-            <div className="contact-info-card">
+            <div className="contact-info-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <div className="contact-info-icon">
                 <IconClock />
               </div>
@@ -352,7 +356,8 @@ export default function Contact() {
                 <p>{firm.hours}</p>
               </div>
             </div>
-            <div className="contact-info-card">
+            <div className="contact-info-card luxe-card">
+              <span className="luxe-card-shine" aria-hidden />
               <div className="contact-info-icon">
                 <IconPin />
               </div>

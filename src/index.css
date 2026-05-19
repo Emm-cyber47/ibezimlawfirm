@@ -15,21 +15,23 @@
   --color-gold-light: var(--color-red-light);
   --color-accent-gold: var(--color-blue-light);
 
-  --color-cream: #f7f5f0;
+  --color-cream: #fbfaf7;
   --color-white: #ffffff;
-  --color-text: #121a2b;
-  --color-text-muted: #5a6272;
-  --color-border: #ddd9d0;
+  --color-text: #0b1220;
+  --color-text-muted: #3a4556;
+  --color-border: #c4bdb0;
+  --color-text-on-dark: rgba(255, 255, 255, 0.96);
+  --color-text-on-dark-muted: rgba(255, 255, 255, 0.9);
   --rgb-navy: 12, 31, 61;
   --rgb-accent: 143, 31, 47;
 
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3', system-ui, sans-serif;
 
-  --shadow-sm: 0 1px 3px rgba(var(--rgb-navy), 0.08);
-  --shadow-md: 0 10px 32px rgba(var(--rgb-navy), 0.12);
-  --shadow-lg: 0 20px 56px rgba(var(--rgb-navy), 0.16);
-  --shadow-luxe: 0 24px 64px rgba(var(--rgb-navy), 0.14);
+  --shadow-sm: 0 1px 4px rgba(var(--rgb-navy), 0.1);
+  --shadow-md: 0 10px 32px rgba(var(--rgb-navy), 0.14);
+  --shadow-lg: 0 20px 56px rgba(var(--rgb-navy), 0.18);
+  --shadow-luxe: 0 24px 64px rgba(var(--rgb-navy), 0.16);
 
   --max-width: 72rem;
   --header-height: 4.5rem;
@@ -115,6 +117,7 @@ select {
 
 .section-lead {
   font-size: 1.125rem;
+  line-height: 1.65;
   color: var(--color-text-muted);
   max-width: 40rem;
 }

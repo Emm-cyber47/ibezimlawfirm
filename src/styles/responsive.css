@@ -1,0 +1,134 @@
+/**
+ * Global responsive foundations — fluid layout, overflow, touch targets.
+ */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+}
+
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: min(100% - clamp(1.25rem, 5vw, 2rem), var(--max-width));
+}
+
+.section {
+  padding-block: clamp(3rem, 8vw, 5rem);
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 4.5vw + 0.5rem, 2.75rem);
+}
+
+.section-lead {
+  font-size: clamp(1rem, 1.5vw + 0.85rem, 1.125rem);
+  max-width: min(40rem, 100%);
+}
+
+.btn {
+  min-height: 2.75rem;
+  padding: 0.75rem clamp(1.25rem, 3vw, 1.75rem);
+}
+
+/* Prevent horizontal scroll from wide children */
+main,
+.header-inner,
+.footer-main {
+  max-width: 100%;
+}
+
+/* Touch-friendly form controls on coarse pointers */
+@media (pointer: coarse) {
+  .nav-link,
+  .nav-dropdown-link,
+  .nav-link--trigger {
+    min-height: 2.75rem;
+  }
+
+  input:not([type='checkbox']):not([type='radio']),
+  textarea,
+  select,
+  .btn {
+    min-height: 2.75rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .logo-text small {
+    display: none;
+  }
+
+  .logo-text strong {
+    font-size: 1rem;
+  }
+}
+
+/* Large tablets / small laptops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    width: min(100% - 2.5rem, var(--max-width));
+  }
+}
+
+/* Page heroes & typography (home hero uses trust strip — no extra padding) */
+.page-hero:not(.hero-home) {
+  padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(2rem, 5vw, 3rem);
+}
+
+.page-hero h1 {
+  font-size: clamp(1.75rem, 5vw + 0.5rem, 3.25rem);
+  line-height: 1.15;
+}
+
+.hero-headline-carousel-title {
+  font-size: clamp(1.75rem, 5vw + 0.5rem, 3.25rem);
+}
+
+/* Grids that should always stack on narrow viewports */
+@media (max-width: 640px) {
+  .contact-grid,
+  .about-hero-grid,
+  .about-story-grid,
+  .attorney-hero-grid,
+  .attorney-bio-grid,
+  .testimonials-faq-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .blog-comment-item header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .blog-share-actions .blog-share-btn {
+    flex: 1 1 calc(50% - 0.25rem);
+    justify-content: center;
+  }
+}
+
+/* Wide content safety */
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+pre,
+.resource-post-article {
+  overflow-x: auto;
+  word-break: break-word;
+}
