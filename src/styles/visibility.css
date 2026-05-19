@@ -183,14 +183,7 @@ textarea::placeholder {
   color: var(--color-text-muted);
 }
 
-/* —— Why choose — on dark bg —— */
-.why-choose-card-text {
-  color: var(--color-text);
-}
-
-.why-choose-card-title {
-  color: var(--color-blue);
-}
+/* Why choose cards — styled in WhyChooseUs.css */
 
 /* —— Testimonials hero —— */
 .testimonials-page-hero p {
