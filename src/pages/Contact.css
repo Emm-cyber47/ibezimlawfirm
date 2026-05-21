@@ -351,12 +351,20 @@
 
   .contact-aside {
     order: -1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    display: flex;
+    flex-direction: column;
   }
 
-  .contact-trust {
-    grid-column: 1 / -1;
+  .contact-why .why-choose-row,
+  .contact-why .why-choose-row--bottom {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+  }
+
+  .contact-why .why-choose-row--bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: calc(66.666% + 0.5rem);
+    margin-inline: auto;
   }
 }
 

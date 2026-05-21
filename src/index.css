@@ -17,8 +17,11 @@
 
   --color-cream: #fbfaf7;
   --color-white: #ffffff;
-  --color-text: #0b1220;
-  --color-text-muted: #3a4556;
+  --color-text: #0a1018;
+  --color-text-muted: #1e2836;
+  --font-weight-body: 500;
+  --font-weight-strong: 600;
+  --font-weight-heading: 700;
   --color-border: #c4bdb0;
   --color-text-on-dark: rgba(255, 255, 255, 0.96);
   --color-text-on-dark-muted: rgba(255, 255, 255, 0.9);
@@ -52,12 +55,37 @@ html {
 
 body {
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.0625rem;
+  font-weight: var(--font-weight-body);
+  line-height: 1.65;
   color: var(--color-text);
   background: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+}
+
+p,
+li,
+label,
+input,
+textarea,
+select,
+button,
+a,
+span,
+time,
+cite,
+address,
+blockquote,
+figcaption,
+td,
+th {
+  font-weight: inherit;
+}
+
+strong,
+b {
+  font-weight: var(--font-weight-heading);
 }
 
 #root {
@@ -98,8 +126,8 @@ select {
 
 .section-label {
   display: inline-block;
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-heading);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-red);
@@ -117,6 +145,7 @@ select {
 
 .section-lead {
   font-size: 1.125rem;
+  font-weight: var(--font-weight-strong);
   line-height: 1.65;
   color: var(--color-text-muted);
   max-width: 40rem;

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { firm, faqs, testimonials } from '../data/site'
+import officeImg from '../office.jpg'
 import './Testimonials.css'
 
 function StarRating({ count }: { count: number }) {
@@ -113,6 +114,9 @@ export default function Testimonials() {
               </svg>
               Contact us
             </Link>
+            <figure className="testimonials-faq-visual">
+              <img src={officeImg} alt="Ibezim Law office interior" loading="lazy" />
+            </figure>
           </div>
 
           <FaqAccordion />

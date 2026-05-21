@@ -14,7 +14,7 @@ export default function PracticeAreaCard({ title, description, imageKey }: Pract
   const contactHref = `/contact?area=${encodeURIComponent(title)}`
 
   return (
-    <article className="practice-card">
+    <Link to={contactHref} className="practice-card">
       <div
         className="practice-card-bg"
         style={{ backgroundImage: `url(${image})` }}
@@ -25,13 +25,13 @@ export default function PracticeAreaCard({ title, description, imageKey }: Pract
       <div className="practice-card-body">
         <h3>{title}</h3>
         <p>{description}</p>
-        <Link to={contactHref} className="practice-card-cta">
+        <span className="practice-card-cta">
           Discuss your matter
           <span className="practice-card-cta-arrow" aria-hidden="true">
             →
           </span>
-        </Link>
+        </span>
       </div>
-    </article>
+    </Link>
   )
 }

@@ -1,0 +1,46 @@
+/**
+ * Site-wide readability — bolder, higher-contrast body copy.
+ */
+
+.nav-link,
+.nav-dropdown-link,
+.footer-links a,
+.footer-contact a,
+.sidebar-categories button,
+.sidebar-recent strong,
+.resource-card-body h2 a,
+.resource-card-excerpt,
+.article-body p,
+.blog-comment-item p,
+.faq-panel p,
+.testimonial-tile blockquote,
+.contact-info-body p,
+.contact-info-body a,
+.home-about-excerpt,
+.about-page-text,
+.about-story-text p,
+.luxe-card-text,
+.value-item p,
+.about-value-card p,
+.why-choose-card-text,
+.form-group label,
+.form-note {
+  font-weight: var(--font-weight-strong, 600);
+  color: var(--color-text-muted);
+}
+
+.section-lead,
+.hero-home .section-lead,
+.resource-card-date,
+.testimonial-role,
+.blog-engagement-sub {
+  font-weight: var(--font-weight-strong, 600);
+}
+
+.logo-text small {
+  font-weight: var(--font-weight-strong, 600);
+}
+
+.logo-text strong {
+  font-weight: var(--font-weight-heading, 700);
+}

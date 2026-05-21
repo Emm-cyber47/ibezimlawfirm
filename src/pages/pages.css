@@ -46,6 +46,7 @@
   overflow: hidden;
 }
 
+.hero-home-image,
 .hero-home-video {
   position: absolute;
   inset: 0;
@@ -53,8 +54,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  object-position: center 35%;
   pointer-events: none;
+}
+
+.hero-home-image {
+  filter: saturate(1.12) contrast(1.05) brightness(1.06);
 }
 
 .hero-home-media-overlay {
@@ -209,6 +214,7 @@
     min-height: auto;
   }
 
+  .hero-home-image,
   .hero-home-video {
     object-position: center 40%;
   }
@@ -223,12 +229,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-home-video {
-    display: none;
-  }
-
-  .hero-home-media {
-    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+  .hero-home-image {
+    filter: none;
   }
 }
 

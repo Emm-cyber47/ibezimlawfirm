@@ -209,8 +209,25 @@
   display: none;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  flex-shrink: 0;
+}
+
+.header-actions .nav-cta {
+  font-size: 0.875rem;
+  padding: 0.625rem 1.125rem;
+  white-space: nowrap;
+}
+
 /* —— Mobile navigation —— */
 @media (max-width: 768px) {
+  .header-actions {
+    display: none;
+  }
+
   .logo-image {
     height: 2.375rem;
   }
@@ -389,7 +406,7 @@
   .nav-link--trigger {
     justify-content: flex-start;
     color: var(--color-blue);
-    cursor: default;
+    cursor: pointer;
   }
 
   /* No chevron on mobile — submenu always visible, no horizontal squeeze */
@@ -488,9 +505,12 @@
     display: none;
   }
 
-  .nav-mobile-scroll,
-  .nav-mobile-auth {
+  .nav-mobile-scroll {
     display: contents;
+  }
+
+  .nav-mobile-auth {
+    display: none;
   }
 
   .nav-scrim {

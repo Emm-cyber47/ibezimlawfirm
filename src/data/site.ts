@@ -54,14 +54,14 @@ export const whyChooseUs = {
       icon: 'accessible' as const,
     },
     {
-      title: 'Personable',
-      text: 'Personal service. We treat every case like it’s our personal case, and no case is too big or too small.',
-      icon: 'personable' as const,
-    },
-    {
       title: 'Experience',
       text: 'We are very knowledgeable, and we take the time to educate you on your case with our years of experience, because we believe that the educated client makes our job easier.',
       icon: 'experience' as const,
+    },
+    {
+      title: 'Personable',
+      text: 'Personal service. We treat every case like it’s our personal case, and no case is too big or too small.',
+      icon: 'personable' as const,
     },
     {
       title: 'Communication',
@@ -87,6 +87,14 @@ export const heroTrustPillars = [
 export const socialLinks = {
   facebook: 'https://web.facebook.com/sebastian.ibezim.7?_rdc=1&_rdr#',
   linkedin: 'https://www.linkedin.com/in/sebastian-ibezim-jr-92153a33/',
+  instagram: 'https://www.instagram.com/',
+  tiktok: 'https://www.tiktok.com/',
+} as const
+
+/** Blog posts author display */
+export const blogAuthor = {
+  name: 'Admin',
+  role: 'Editor',
 } as const
 
 export const affiliations = [
@@ -120,7 +128,6 @@ export const navLinks = [
   { label: 'Practice Areas', path: '/services' },
   { label: 'Testimonials', path: '/testimonials' },
   { label: 'Resources', path: '/resources' },
-  { label: 'Contact', path: '/contact' },
 ] as const
 
 export const testimonials = [
@@ -203,7 +210,7 @@ export const faqs = [
     id: 'areas',
     question: 'What areas of law does your firm handle?',
     answer:
-      'We represent clients in personal injury, immigration, workers’ compensation, medical malpractice, real estate, traffic matters, and uncontested divorce. Visit our Practice Areas page for details on each service.',
+      'We represent clients in personal injury, truck and car accidents, immigration, workers’ compensation, medical malpractice, real estate, traffic matters, and uncontested divorce. Visit our Practice Areas page for details on each service.',
   },
   {
     id: 'timeline',
@@ -238,7 +245,7 @@ export const blogPosts = [
       'Key regulatory obligations every business owner should know before scaling operations in the Garden State.',
     date: '2026-04-12',
     category: 'Corporate Law',
-    author: 'Sebastian O. Ibezim',
+    author: blogAuthor.name,
     readTime: '6 min read',
     imageKey: 'office',
     body: [
@@ -254,7 +261,7 @@ export const blogPosts = [
       'Why a valid will and clear succession plan matter—and how New Jersey families can get started.',
     date: '2026-03-28',
     category: 'Estate Planning',
-    author: 'Sebastian O. Ibezim',
+    author: blogAuthor.name,
     readTime: '5 min read',
     imageKey: 'door',
     body: [
@@ -270,7 +277,7 @@ export const blogPosts = [
       'Choosing the right path when a business relationship breaks down in New Jersey courts or private forums.',
     date: '2026-02-15',
     category: 'Litigation',
-    author: 'Sebastian O. Ibezim',
+    author: blogAuthor.name,
     readTime: '7 min read',
     imageKey: 'reception',
     body: [
@@ -286,7 +293,7 @@ export const blogPosts = [
       'Practical steps to protect your health, your rights, and your potential claim after an accident.',
     date: '2026-01-20',
     category: 'Personal Injury',
-    author: 'Sebastian O. Ibezim',
+    author: blogAuthor.name,
     readTime: '5 min read',
     imageKey: 'officeoutdoor',
     body: [
@@ -303,6 +310,13 @@ export const practiceAreas = [
     imageKey: 'personalInjury',
     description:
       'Representation for individuals injured through negligence—including auto accidents, slips and falls, and other incidents—pursuing compensation for medical expenses, lost income, and pain and suffering.',
+    icon: 'scale',
+  },
+  {
+    title: 'Truck and Car Accidents',
+    imageKey: 'truckAccidents',
+    description:
+      'Focused advocacy after car, truck, and commercial vehicle crashes—from investigating fault and insurance coverage to pursuing full compensation for serious injuries, property damage, and long-term losses.',
     icon: 'scale',
   },
   {
@@ -359,6 +373,7 @@ export const aboutPage = {
   ],
   featuredPracticeAreas: [
     'Personal Injury',
+    'Truck and Car Accidents',
     'Medical Malpractice',
     'Immigration',
     'Traffic Matters',

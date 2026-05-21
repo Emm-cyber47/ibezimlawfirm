@@ -7,8 +7,12 @@ html {
   text-size-adjust: 100%;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 img,

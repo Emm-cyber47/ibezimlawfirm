@@ -18,10 +18,10 @@
 
 .footer-affiliations-label {
   font-size: 0.6875rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text);
   margin-bottom: 1.5rem;
 }
 

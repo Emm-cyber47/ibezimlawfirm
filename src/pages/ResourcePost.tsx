@@ -1,7 +1,7 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import BlogEngagement from '../components/BlogEngagement.tsx'
 import BlogSidebar from '../components/BlogSidebar.tsx'
-import { blogPosts } from '../data/site'
+import { blogAuthor, blogPosts } from '../data/site'
 import { formatBlogDate, getRelatedPosts } from '../lib/blogHelpers'
 import { getBlogImage } from '../lib/blogImages'
 import './Resources.css'
@@ -27,7 +27,7 @@ export default function ResourcePost() {
           <p className="article-lead">{post.excerpt}</p>
           <div className="article-meta">
             <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-            <span>{post.author}</span>
+            <span>{blogAuthor.name}</span>
             <span>{post.readTime}</span>
           </div>
         </div>

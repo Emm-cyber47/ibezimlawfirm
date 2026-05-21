@@ -171,6 +171,23 @@
   height: 1.125rem;
 }
 
+.testimonials-faq-visual {
+  margin-top: 1.75rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.testimonials-faq-visual img {
+  width: 100%;
+  height: auto;
+  min-height: 14rem;
+  max-height: 22rem;
+  object-fit: cover;
+  display: block;
+}
+
 .faq-accordion {
   display: flex;
   flex-direction: column;
@@ -284,6 +301,11 @@
   .testimonials-faq-intro {
     position: static;
     text-align: center;
+  }
+
+  .testimonials-faq-visual {
+    max-width: 22rem;
+    margin-inline: auto;
   }
 
   .testimonials-faq-intro .section-title {

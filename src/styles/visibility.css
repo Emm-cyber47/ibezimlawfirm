@@ -114,6 +114,7 @@ html {
 .blog-comment-item p,
 .card p {
   color: var(--color-text-muted);
+  font-weight: var(--font-weight-strong, 600);
 }
 
 /* —— Forms —— */
@@ -137,9 +138,53 @@ textarea::placeholder {
   color: var(--color-text-on-dark);
 }
 
-.footer a,
-.footer p {
+.footer-main a,
+.footer-main p,
+.footer-bottom a,
+.footer-bottom p {
   color: rgba(255, 255, 255, 0.88);
+}
+
+/* Affiliations strip sits on light background inside footer */
+.footer-affiliations,
+.footer-affiliations-label {
+  color: var(--color-text-muted);
+}
+
+.footer-affiliations-label {
+  color: var(--color-text) !important;
+  font-weight: 700;
+}
+
+.footer-badge img {
+  opacity: 1;
+  filter: none;
+}
+
+/* Trust & values cards — stronger contrast on light sections */
+.value-item,
+.about-value-card {
+  border-color: rgba(var(--rgb-navy), 0.14) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.value-item .luxe-card-title,
+.value-item h3,
+.about-value-card .luxe-card-title,
+.about-value-card h3 {
+  color: var(--color-blue) !important;
+}
+
+.value-item .luxe-card-text,
+.value-item p,
+.about-value-card .luxe-card-text,
+.about-value-card p {
+  color: var(--color-text) !important;
+}
+
+.value-item .luxe-card-icon,
+.about-value-card .luxe-card-icon {
+  color: var(--color-red);
 }
 
 /* —— Practice cards — slightly punchier imagery —— */
@@ -157,7 +202,8 @@ textarea::placeholder {
 }
 
 .practice-card-body p {
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.96) !important;
+  font-weight: 600;
 }
 
 /* —— Resource / blog cards with images —— */

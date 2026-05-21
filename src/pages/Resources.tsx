@@ -7,7 +7,8 @@ import { getBlogImage } from '../lib/blogImages'
 import { nativeSharePost } from '../lib/sharePost'
 import { validateEmail, validateSearchQuery } from '../lib/formValidation'
 import { usePostEngagement } from '../hooks/usePostEngagement'
-import authorImg from '../ibezim.jpg'
+import adminImg from '../admin.jpg'
+import { blogAuthor } from '../data/site'
 import './Resources.css'
 
 const POSTS_PER_PAGE = 4
@@ -167,13 +168,13 @@ export default function Resources() {
                       <footer className="resource-card-footer">
                         <div className="resource-card-author">
                           <img
-                            src={authorImg}
+                            src={adminImg}
                             alt=""
                             className="resource-author-avatar"
                           />
                           <div className="resource-author-info">
-                            <strong>{post.author}</strong>
-                            <span>Attorney</span>
+                            <strong>{blogAuthor.name}</strong>
+                            <span>{blogAuthor.role}</span>
                           </div>
                         </div>
                         <button

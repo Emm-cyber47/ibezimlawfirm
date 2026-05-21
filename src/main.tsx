@@ -9,6 +9,8 @@ import './styles/glossy-ui.css'
 import './styles/luxe-cards.css'
 import './styles/responsive.css'
 import './styles/visibility.css'
+import './styles/readability.css'
+import './styles/vibrant-ui.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

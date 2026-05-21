@@ -201,6 +201,17 @@ export default function Header() {
           </div>
           </div>
         </nav>
+
+        <div className="header-actions">
+          {user ? (
+            <UserMenu menuOpen={menuOpen} onNavigate={closeMenu} />
+          ) : (
+            <AuthDropdown menuOpen={menuOpen} />
+          )}
+          <Link to="/contact" className="btn btn-primary nav-cta" onClick={closeMenu}>
+            Contact us
+          </Link>
+        </div>
       </div>
     </header>
   )

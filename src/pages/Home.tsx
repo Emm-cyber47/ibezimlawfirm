@@ -8,7 +8,7 @@ import LuxeCardIcon from '../components/LuxeCardIcon.tsx'
 import WhyChooseUs from '../components/WhyChooseUs.tsx'
 import { firm, practiceAreas, values } from '../data/site'
 import attorneyPortrait from '../ibezim.jpg'
-import heroVideo from '../video.mp4'
+import courthouseImg from '../courthouse.jpg'
 import './pages.css'
 
 export default function Home() {
@@ -18,16 +18,13 @@ export default function Home() {
         <HeroTrustBar />
         <div className="hero-home-split">
           <div className="hero-home-media">
-            <video
-              className="hero-home-video"
-              autoPlay
-              muted
-              loop
-              playsInline
-              aria-hidden="true"
-            >
-              <source src={heroVideo} type="video/mp4" />
-            </video>
+            <img
+              className="hero-home-image"
+              src={courthouseImg}
+              alt=""
+              fetchPriority="high"
+              decoding="async"
+            />
             <div className="hero-home-media-overlay" aria-hidden="true" />
             <div className="hero-home-content">
               <span className="hero-home-rule" aria-hidden="true" />

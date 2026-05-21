@@ -3,6 +3,10 @@ import './WhyChooseUs.css'
 
 type ReasonIcon = (typeof whyChooseUs.reasons)[number]['icon']
 
+type WhyChooseUsProps = {
+  variant?: 'section' | 'contact'
+}
+
 function ReasonIconSvg({ type }: { type: ReasonIcon }) {
   const props = {
     viewBox: '0 0 24 24',
@@ -24,8 +28,8 @@ function ReasonIconSvg({ type }: { type: ReasonIcon }) {
     case 'personable':
       return (
         <svg {...props}>
-          <path d="M5 8h14v8H9l-4 4V8z" strokeLinejoin="round" />
-          <path d="M8 11h8M8 14h5" strokeLinecap="round" />
+          <path d="M8 11a4 4 0 1 1 8 0M6 20v-1a6 6 0 0 1 12 0v1" strokeLinecap="round" />
+          <path d="M12 11v3M10.5 13.5h3" strokeLinecap="round" />
         </svg>
       )
     case 'experience':
@@ -38,14 +42,14 @@ function ReasonIconSvg({ type }: { type: ReasonIcon }) {
     case 'communication':
       return (
         <svg {...props}>
-          <path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5L12 14.8 7.5 16.7l.9-5L4.8 8.2l5-.7L12 3z" strokeLinejoin="round" />
+          <path d="M5 8h14v8H9l-4 4V8z" strokeLinejoin="round" />
+          <path d="M8 11h8M8 14h5" strokeLinecap="round" />
         </svg>
       )
     case 'results':
       return (
         <svg {...props}>
-          <path d="M8 11a4 4 0 1 1 8 0M6 20v-1a6 6 0 0 1 12 0v1" strokeLinecap="round" />
-          <path d="M12 11v3M10.5 13.5h3" strokeLinecap="round" />
+          <path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5L12 14.8 7.5 16.7l.9-5L4.8 8.2l5-.7L12 3z" strokeLinejoin="round" />
         </svg>
       )
     default:
@@ -53,8 +57,63 @@ function ReasonIconSvg({ type }: { type: ReasonIcon }) {
   }
 }
 
-export default function WhyChooseUs() {
+function WhyChooseCard({
+  reason,
+  index,
+}: {
+  reason: (typeof whyChooseUs.reasons)[number]
+  index: number
+}) {
+  return (
+    <article
+      className="luxe-card why-choose-card"
+      style={{ animationDelay: `${index * 0.08}s` }}
+    >
+      <span className="luxe-card-shine" aria-hidden />
+      <span className="why-choose-card-num luxe-card-num" aria-hidden="true">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <span className="why-choose-card-icon">
+        <ReasonIconSvg type={reason.icon} />
+      </span>
+      <div className="luxe-card-inner">
+        <h3 className="why-choose-card-title luxe-card-title">{reason.title}</h3>
+        <p className="why-choose-card-text luxe-card-text">{reason.text}</p>
+      </div>
+    </article>
+  )
+}
+
+export default function WhyChooseUs({ variant = 'section' }: WhyChooseUsProps) {
   const { eyebrow, title, reasons } = whyChooseUs
+  const topRow = reasons.slice(0, 3)
+  const bottomRow = reasons.slice(3)
+
+  const grid = (
+    <div className="why-choose-grid why-choose-grid--pyramid">
+      <div className="why-choose-row">
+        {topRow.map((reason, index) => (
+          <WhyChooseCard key={reason.title} reason={reason} index={index} />
+        ))}
+      </div>
+      <div className="why-choose-row why-choose-row--bottom">
+        {bottomRow.map((reason, index) => (
+          <WhyChooseCard key={reason.title} reason={reason} index={index + 3} />
+        ))}
+      </div>
+    </div>
+  )
+
+  if (variant === 'contact') {
+    return (
+      <div className="contact-why" aria-labelledby="contact-why-title">
+        <h3 id="contact-why-title" className="contact-why-title">
+          {title}
+        </h3>
+        {grid}
+      </div>
+    )
+  }
 
   return (
     <section className="why-choose" aria-labelledby="why-choose-title">
@@ -67,28 +126,7 @@ export default function WhyChooseUs() {
           </h2>
           <span className="why-choose-header-rule" aria-hidden="true" />
         </header>
-
-        <div className="why-choose-grid">
-          {reasons.map((reason, index) => (
-            <article
-              key={reason.title}
-              className="luxe-card why-choose-card"
-              style={{ animationDelay: `${index * 0.08}s` }}
-            >
-              <span className="luxe-card-shine" aria-hidden />
-              <span className="why-choose-card-num luxe-card-num" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <span className="why-choose-card-icon">
-                <ReasonIconSvg type={reason.icon} />
-              </span>
-              <div className="luxe-card-inner">
-                <h3 className="why-choose-card-title luxe-card-title">{reason.title}</h3>
-                <p className="why-choose-card-text luxe-card-text">{reason.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        {grid}
       </div>
     </section>
   )

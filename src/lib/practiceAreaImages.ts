@@ -5,10 +5,12 @@ import trafficImg from '../traffick.jpg'
 import medicalImg from '../medical.jpg'
 import realEstateImg from '../real.jpg'
 import divorceImg from '../div.jpg'
+import truckImg from '../truck.jpg'
 import { practiceAreas } from '../data/site'
 
 export const practiceAreaImages = {
   personalInjury: personalInjuryImg,
+  truckAccidents: truckImg,
   immigration: immigrationImg,
   workersComp: workersCompImg,
   traffic: trafficImg,
