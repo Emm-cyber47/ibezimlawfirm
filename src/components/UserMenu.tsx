@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { CSSProperties } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { profileInitials } from '../lib/profileDisplay'
+import ProfileAvatar from './ProfileAvatar'
 import './UserMenu.css'
 
 type UserMenuProps = {
@@ -16,8 +15,6 @@ export default function UserMenu({ menuOpen, onNavigate }: UserMenuProps) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-
-  const initials = profileInitials(user?.firstName ?? '', user?.lastName ?? '')
 
   const close = useCallback(() => {
     setOpen(false)
@@ -53,14 +50,6 @@ export default function UserMenu({ menuOpen, onNavigate }: UserMenuProps) {
     navigate('/')
   }
 
-  function avatarHue(seed: string) {
-    let h = 0
-    for (let i = 0; i < seed.length; i += 1) h = seed.charCodeAt(i) + ((h << 5) - h)
-    return Math.abs(h % 340) + 20
-  }
-
-  const hue = avatarHue(user ? `${user.firstName}|${user.lastName}|${user.email}` : 'guest')
-
   if (!user) return null
 
   return (
@@ -72,15 +61,15 @@ export default function UserMenu({ menuOpen, onNavigate }: UserMenuProps) {
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((o) => !o)}
-        style={
-          {
-            '--user-avatar-h': `${hue}deg`,
-          } as CSSProperties
-        }
       >
-        <span className="user-menu-avatar" aria-hidden>
-          {initials}
-        </span>
+        <ProfileAvatar
+          firstName={user.firstName}
+          lastName={user.lastName}
+          email={user.email}
+          avatarUrl={user.avatarUrl}
+          size="sm"
+          className="user-menu-avatar-wrap"
+        />
         <span className="user-menu-trigger-text">
           {user.firstName} {user.lastName}
         </span>

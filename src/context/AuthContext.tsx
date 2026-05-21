@@ -22,6 +22,7 @@ import {
 import { defaultProfileFromEmail } from '../lib/profileDisplay'
 import {
   fetchAuthUserProfile,
+  isPasswordAccountEmailConfirmed,
   mapAuthError,
   normalizeEmail,
   updateAuthUserProfile,
@@ -57,6 +58,7 @@ type AuthContextValue = {
   ) => Promise<SignupResult>
   loginWithGoogle: () => Promise<{ ok: true } | { ok: false; error: string }>
   requestPasswordReset: (email: string) => Promise<{ ok: true } | { ok: false; error: string }>
+  resendSignupConfirmation: (email: string) => Promise<{ ok: true } | { ok: false; error: string }>
   completePasswordRecovery: (password: string) => Promise<{ ok: true } | { ok: false; error: string }>
   logout: () => Promise<void>
   updateProfile: (patch: {
@@ -108,33 +110,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     let active = true
 
-    async function applySession() {
-      if (isRecoveryCallbackUrl()) setPasswordRecoveryPending(true)
-      const { data, error } = await client.auth.getSession()
-      if (!active) return
-      if (error) console.error('getSession failed:', error.message)
-      if (data.session?.user) {
-        const profile = await fetchAuthUserProfile(data.session.user)
-        if (active) setUser(profile)
-      } else if (active) {
-        setUser(null)
-      }
-      if (active) setAuthLoading(false)
-    }
-
-    void applySession()
-
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
         setPasswordRecoveryPending(true)
       }
+      if (isRecoveryCallbackUrl()) setPasswordRecoveryPending(true)
+
+      if (event === 'TOKEN_REFRESHED') return
+
       void (async () => {
         if (!active) return
         if (session?.user) {
-          const profile = await fetchAuthUserProfile(session.user)
-          if (active) setUser(profile)
+          if (!isPasswordAccountEmailConfirmed(session.user)) {
+            await client.auth.signOut()
+            if (active) setUser(null)
+          } else {
+            const profile = await fetchAuthUserProfile(session.user)
+            if (active) setUser(profile)
+          }
         } else if (active) {
           setUser(null)
           if (event === 'SIGNED_OUT') setPasswordRecoveryPending(false)
@@ -242,9 +237,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
       if (error) return { ok: false, error: mapAuthError(error.message) }
 
-      if (!data.user) return { ok: false, error: 'Sign-up failed. Please try again.' }
-
+      // Confirm-email ON: no session until the inbox link is opened (user may be null for privacy)
       if (!data.session) {
+        return { ok: true, needsEmailConfirmation: true }
+      }
+
+      if (!data.user) {
+        return { ok: false, error: 'Sign-up failed. Please try again.' }
+      }
+
+      if (!isPasswordAccountEmailConfirmed(data.user)) {
+        await supabase.auth.signOut()
         return { ok: true, needsEmailConfirmation: true }
       }
 
@@ -254,6 +257,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     [],
   )
+
+  const resendSignupConfirmation = useCallback(async (email: string) => {
+    const normalized = normalizeEmail(email)
+    if (!normalized) return { ok: false, error: 'Enter your email.' }
+
+    if (!isSupabaseConfigured) {
+      return { ok: false, error: 'Email confirmation requires Supabase to be configured.' }
+    }
+
+    const supabase = getSupabase()
+    if (!supabase) return { ok: false, error: 'Email confirmation is not configured.' }
+
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: normalized,
+      options: { emailRedirectTo: authEmailConfirmedUrl() },
+    })
+    if (error) return { ok: false, error: mapAuthError(error.message) }
+    return { ok: true as const }
+  }, [])
 
   const loginWithGoogle = useCallback(async (): Promise<
     { ok: true } | { ok: false; error: string }
@@ -355,6 +378,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         firstName: patch.firstName.trim(),
         lastName: patch.lastName.trim(),
         phone: patch.phone.trim(),
+        avatarUrl: prev.avatarUrl,
       }
 
       if (isSupabaseConfigured && prev.id) {
@@ -382,6 +406,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signUpPassword,
       loginWithGoogle,
       requestPasswordReset,
+      resendSignupConfirmation,
       completePasswordRecovery,
       logout,
       updateProfile,
@@ -394,6 +419,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signUpPassword,
       loginWithGoogle,
       requestPasswordReset,
+      resendSignupConfirmation,
       completePasswordRecovery,
       logout,
       updateProfile,

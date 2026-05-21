@@ -44,6 +44,7 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
     signUpPassword,
     loginWithGoogle,
     requestPasswordReset,
+    resendSignupConfirmation,
     usesSupabase,
   } = useAuth()
   const panelId = useId()
@@ -71,11 +72,18 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
   const [loginErrors, setLoginErrors] = useState<Record<string, string>>({})
   const [signupErrors, setSignupErrors] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState(false)
+  const [pendingConfirmEmail, setPendingConfirmEmail] = useState<string | null>(null)
+  const [pendingConfirmNotice, setPendingConfirmNotice] = useState<{
+    text: string
+    variant: 'success' | 'notice'
+  } | null>(null)
 
   const close = useCallback(() => {
     setOpen(false)
     setTouched(false)
     setBanner(null)
+    setPendingConfirmEmail(null)
+    setPendingConfirmNotice(null)
     setLoginErrors({})
     setSignupErrors({})
     triggerRef.current?.focus()
@@ -136,14 +144,55 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
     const result = await loginWithPassword(login.email, login.password, login.remember)
     setSubmitting(false)
     if (!result.ok) {
+      const needsConfirm = result.error.toLowerCase().includes('confirm')
       setBanner({
         variant: 'notice',
-        text: result.error,
+        text: needsConfirm
+          ? `${result.error} Use “Resend confirmation email” below if you need a new link.`
+          : result.error,
       })
       return
     }
     close()
     navigate('/profile')
+  }
+
+  async function handleResendConfirmation() {
+    setTouched(true)
+    const emailCheck = validateEmail(login.email)
+    if (!emailCheck.valid) {
+      setLoginErrors({ email: emailCheck.message })
+      setBanner({ variant: 'notice', text: emailCheck.message })
+      return
+    }
+    setSubmitting(true)
+    setBanner(null)
+    const result = await resendSignupConfirmation(login.email)
+    setSubmitting(false)
+    if (!result.ok) {
+      setBanner({ variant: 'notice', text: result.error })
+      return
+    }
+    setBanner({
+      variant: 'success',
+      text: 'Confirmation email sent. Open the link in your inbox, then sign in.',
+    })
+  }
+
+  async function handleResendFromPending() {
+    if (!pendingConfirmEmail) return
+    setSubmitting(true)
+    setPendingConfirmNotice(null)
+    const result = await resendSignupConfirmation(pendingConfirmEmail)
+    setSubmitting(false)
+    if (!result.ok) {
+      setPendingConfirmNotice({ variant: 'notice', text: result.error })
+      return
+    }
+    setPendingConfirmNotice({
+      variant: 'success',
+      text: 'Another confirmation email was sent. Please check your inbox.',
+    })
   }
 
   async function submitSignup(e: React.FormEvent) {
@@ -177,11 +226,11 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
       return
     }
     if (result.needsEmailConfirmation) {
-      setBanner({
-        variant: 'success',
-        text: `We sent a confirmation link to ${signup.email.trim()}. Open that email, then sign in here.`,
-      })
-      setMode('login')
+      const email = signup.email.trim()
+      setLogin((x) => ({ ...x, email }))
+      setPendingConfirmEmail(email)
+      setPendingConfirmNotice(null)
+      setBanner(null)
       setSignup((x) => ({ ...x, password: '', confirmPassword: '' }))
       return
     }
@@ -243,6 +292,58 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
           >
             <div className="auth-dropdown-shine" aria-hidden />
 
+            {pendingConfirmEmail ? (
+              <div className="auth-confirm-pending" role="status" aria-live="polite">
+                <div className="auth-confirm-pending-icon" aria-hidden>
+                  <svg viewBox="0 0 24 24" width="40" height="40">
+                    <path
+                      fill="currentColor"
+                      d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+                    />
+                  </svg>
+                </div>
+                <h2 id={`${panelId}-title`} className="auth-dropdown-title">
+                  Check your email
+                </h2>
+                <p className="auth-confirm-pending-lead">
+                  We sent a confirmation link to{' '}
+                  <strong className="auth-confirm-pending-email">{pendingConfirmEmail}</strong>.
+                  Open that email and click the link to activate your account.
+                </p>
+                <p className="auth-confirm-pending-hint">
+                  After confirming, return here and sign in with your email and password. Check spam
+                  if you do not see the message within a few minutes.
+                </p>
+                {pendingConfirmNotice ? (
+                  <p
+                    className={`auth-feedback auth-feedback--${pendingConfirmNotice.variant} auth-confirm-pending-notice`}
+                  >
+                    {pendingConfirmNotice.text}
+                  </p>
+                ) : null}
+                <button
+                  type="button"
+                  className="auth-submit"
+                  disabled={submitting}
+                  onClick={() => void handleResendFromPending()}
+                >
+                  {submitting ? 'Sending…' : 'Resend confirmation email'}
+                </button>
+                <button
+                  type="button"
+                  className="auth-confirm-pending-secondary"
+                  onClick={() => {
+                    setLogin((x) => ({ ...x, email: pendingConfirmEmail }))
+                    setPendingConfirmEmail(null)
+                    setPendingConfirmNotice(null)
+                    setMode('login')
+                  }}
+                >
+                  Continue to sign in
+                </button>
+              </div>
+            ) : (
+              <>
             <div className="auth-dropdown-header">
               <p className="auth-dropdown-kicker">{firm.name}</p>
               <h2 id={`${panelId}-title`} className="auth-dropdown-title">
@@ -251,7 +352,7 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
               <p className="auth-dropdown-sub">
                 {mode === 'login'
                   ? 'Secure access to client resources and messaging.'
-                  : "Create your client profile — we'll reply with next steps promptly."}
+                  : 'Create your account — we will email you a confirmation link before you can sign in.'}
               </p>
             </div>
 
@@ -321,6 +422,16 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
                   >
                     Forgot password?
                   </button>
+                  {usesSupabase ? (
+                    <button
+                      type="button"
+                      className="auth-linkish"
+                      disabled={submitting}
+                      onClick={() => void handleResendConfirmation()}
+                    >
+                      Resend confirmation
+                    </button>
+                  ) : null}
                 </div>
                 <button type="submit" className="auth-submit" disabled={submitting}>
                   {submitting ? 'Signing in…' : 'Sign in'}
@@ -485,6 +596,8 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
                 </>
               )}
             </p>
+              </>
+            )}
 
             <button type="button" className="auth-close-fab" aria-label="Close" onClick={close}>
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden>

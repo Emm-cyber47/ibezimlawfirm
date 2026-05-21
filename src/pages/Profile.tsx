@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react'
-import type { CSSProperties, FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { firm } from '../data/site'
 import { useAuth } from '../context/AuthContext'
 import FormField from '../components/FormField'
-import { profileInitials } from '../lib/profileDisplay'
+import ProfileAvatar from '../components/ProfileAvatar'
 import { hasErrors, validateOptionalPhone, validatePersonName } from '../lib/formValidation'
 import '../components/FormField.css'
 import './Profile.css'
-
-function avatarHue(seed: string) {
-  let h = 0
-  for (let i = 0; i < seed.length; i += 1) h = seed.charCodeAt(i) + ((h << 5) - h)
-  return Math.abs(h % 340) + 20
-}
 
 export default function Profile() {
   const { user, updateProfile, logout } = useAuth()
@@ -41,9 +35,6 @@ export default function Profile() {
   }, [user, editing])
 
   if (!user) return null
-
-  const initials = profileInitials(user.firstName, user.lastName)
-  const hue = avatarHue(`${user.firstName}|${user.lastName}|${user.email}`)
 
   async function handleSave(e: FormEvent) {
     e.preventDefault()
@@ -91,13 +82,13 @@ export default function Profile() {
         <div className="container profile-shell">
           <aside className="profile-luxe-card profile-card--summary">
             <span className="profile-card-shine" aria-hidden />
-            <div
-              className="profile-avatar-ring"
-              style={{ '--avatar-h': `${hue}deg` } as CSSProperties}
-              aria-hidden
-            >
-              <div className="profile-avatar-inner">{initials}</div>
-            </div>
+            <ProfileAvatar
+              firstName={user.firstName}
+              lastName={user.lastName}
+              email={user.email}
+              avatarUrl={user.avatarUrl}
+              size="lg"
+            />
             <p className="profile-summary-name">
               {user.firstName} {user.lastName}
             </p>

@@ -7,5 +7,7 @@ export type AuthUserProfile = {
   firstName: string
   lastName: string
   phone: string
+  /** Google/OAuth profile photo URL when available */
+  avatarUrl?: string
   authMethod: AuthMethod
 }

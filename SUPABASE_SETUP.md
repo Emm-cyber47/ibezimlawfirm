@@ -81,7 +81,8 @@ The app uses **Supabase Auth** when `.env.local` is set; otherwise it falls back
 
 1. **Authentication** → **Configuration** → **Sign In / Providers** → **Email**:
    - Enable **Email**.
-   - Turn **Confirm email** **ON** (signup requires clicking the link in email).
+   - Turn **Confirm email** **ON** (required — if this is off, new users skip the inbox step and go straight to the profile).
+   - Save the provider settings.
    - Enable **Google** if you use “Continue with Google”.
 2. **Authentication** → **Configuration** → **URL Configuration**:
    - **Site URL:** `http://localhost:5173` (dev) and your production URL.
@@ -97,7 +98,18 @@ The app uses **Supabase Auth** when `.env.local` is set; otherwise it falls back
 
 ### SQL after initial migration
 
-Run `supabase/migrations/20250521000002_auth_profile_phone.sql` in the SQL Editor so signup saves **phone** on the `profiles` row.
+Run these in the SQL Editor (in order):
+
+1. `supabase/migrations/20250521000002_auth_profile_phone.sql` — phone on signup  
+2. `supabase/migrations/20250521000003_profile_avatar_oauth.sql` — adds `avatar_url` for storing Google profile photos in the database.
+
+3. In `.env.local` add (then restart `npm run dev`):
+
+   ```bash
+   VITE_PROFILES_AVATAR_COLUMN=true
+   ```
+
+   Leave this unset/false until migration **003** has been run. The app still shows Google names and photos from Google without it; this flag only enables saving the photo URL to `profiles`.
 
 ### What works in the UI
 
