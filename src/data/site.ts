@@ -88,7 +88,7 @@ export const socialLinks = {
   facebook: 'https://web.facebook.com/sebastian.ibezim.7?_rdc=1&_rdr#',
   linkedin: 'https://www.linkedin.com/in/sebastian-ibezim-jr-92153a33/',
   instagram: 'https://www.instagram.com/',
-  tiktok: 'https://www.tiktok.com/',
+  tiktok: 'https://www.tiktok.com/@ibezim.law.office?_r=1&_t=ZT-96LNPJAoTPS',
 } as const
 
 /** Blog posts author display */

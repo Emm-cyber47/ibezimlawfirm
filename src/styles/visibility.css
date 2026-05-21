@@ -138,11 +138,35 @@ textarea::placeholder {
   color: var(--color-text-on-dark);
 }
 
+.footer-main,
+.footer-bottom,
 .footer-main a,
 .footer-main p,
+.footer-main address,
+.footer-main h3,
+.footer-main li,
 .footer-bottom a,
-.footer-bottom p {
-  color: rgba(255, 255, 255, 0.88);
+.footer-bottom p,
+.footer-bottom span,
+.footer-links a,
+.footer-contact,
+.footer-contact a,
+.footer-tagline,
+.footer-heading,
+.footer-copy,
+.footer-disclaimer {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.footer-logo,
+.footer-logo span,
+.footer-contact a {
+  color: #ffffff !important;
+}
+
+.footer-links a:hover,
+.footer-contact a:hover {
+  color: #ffffff !important;
 }
 
 /* Affiliations strip sits on light background inside footer */

@@ -198,6 +198,9 @@ export default function Header() {
           </ul>
           <div className="nav-mobile-auth">
             {user ? <UserMenu menuOpen={menuOpen} onNavigate={closeMenu} /> : <AuthDropdown menuOpen={menuOpen} />}
+            <Link to="/contact" className="btn btn-primary nav-cta" onClick={closeMenu}>
+              Contact us
+            </Link>
           </div>
           </div>
         </nav>

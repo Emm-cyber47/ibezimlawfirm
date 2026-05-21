@@ -467,6 +467,15 @@
     justify-content: center;
   }
 
+  .nav-mobile-auth .nav-cta {
+    display: flex;
+    width: 100%;
+    margin-top: 0.875rem;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
+
   .nav-mobile-auth .user-menu-dropdown {
     position: static;
     opacity: 1;
