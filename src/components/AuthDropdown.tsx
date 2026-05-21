@@ -6,6 +6,7 @@ import {
   hasErrors,
   validateAuthLogin,
   validateAuthSignup,
+  validateEmail,
 } from '../lib/formValidation'
 import { firm } from '../data/site'
 import './AuthDropdown.css'
@@ -38,7 +39,13 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
   const navigate = useNavigate()
-  const { loginWithPassword, signUpPassword, loginWithGoogleDemo } = useAuth()
+  const {
+    loginWithPassword,
+    signUpPassword,
+    loginWithGoogle,
+    requestPasswordReset,
+    usesSupabase,
+  } = useAuth()
   const panelId = useId()
   const wrapRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -63,6 +70,7 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
 
   const [loginErrors, setLoginErrors] = useState<Record<string, string>>({})
   const [signupErrors, setSignupErrors] = useState<Record<string, string>>({})
+  const [submitting, setSubmitting] = useState(false)
 
   const close = useCallback(() => {
     setOpen(false)
@@ -102,19 +110,31 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
     return () => window.clearTimeout(t)
   }, [open, mode])
 
-  function handleGooglePlaceholder() {
-    loginWithGoogleDemo(login.remember)
-    close()
-    navigate('/profile')
+  async function handleGoogleSignIn() {
+    setSubmitting(true)
+    setBanner(null)
+    const result = await loginWithGoogle()
+    setSubmitting(false)
+    if (!result.ok) {
+      setBanner({ variant: 'notice', text: result.error })
+      return
+    }
+    if (!usesSupabase) {
+      close()
+      navigate('/profile')
+    }
   }
 
-  function submitLogin(e: React.FormEvent) {
+  async function submitLogin(e: React.FormEvent) {
     e.preventDefault()
     setTouched(true)
     const errors = validateAuthLogin(login)
     setLoginErrors(errors)
     if (hasErrors(errors)) return
-    const result = loginWithPassword(login.email, login.password, login.remember)
+    setSubmitting(true)
+    setBanner(null)
+    const result = await loginWithPassword(login.email, login.password, login.remember)
+    setSubmitting(false)
     if (!result.ok) {
       setBanner({
         variant: 'notice',
@@ -126,7 +146,7 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
     navigate('/profile')
   }
 
-  function submitSignup(e: React.FormEvent) {
+  async function submitSignup(e: React.FormEvent) {
     e.preventDefault()
     setTouched(true)
     const errors = validateAuthSignup({
@@ -139,7 +159,9 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
     })
     setSignupErrors(errors)
     if (hasErrors(errors)) return
-    const result = signUpPassword(
+    setSubmitting(true)
+    setBanner(null)
+    const result = await signUpPassword(
       {
         firstName: signup.firstName,
         lastName: signup.lastName,
@@ -149,15 +171,44 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
       },
       signup.remember,
     )
+    setSubmitting(false)
     if (!result.ok) {
+      setBanner({ variant: 'notice', text: result.error })
+      return
+    }
+    if (result.needsEmailConfirmation) {
       setBanner({
-        variant: 'notice',
-        text: result.error,
+        variant: 'success',
+        text: `We sent a confirmation link to ${signup.email.trim()}. Open that email, then sign in here.`,
       })
+      setMode('login')
+      setSignup((x) => ({ ...x, password: '', confirmPassword: '' }))
       return
     }
     close()
     navigate('/profile')
+  }
+
+  async function handleForgotPassword() {
+    setTouched(true)
+    const emailCheck = validateEmail(login.email)
+    if (!emailCheck.valid) {
+      setLoginErrors({ email: emailCheck.message })
+      setBanner({ variant: 'notice', text: emailCheck.message })
+      return
+    }
+    setSubmitting(true)
+    setBanner(null)
+    const result = await requestPasswordReset(login.email)
+    setSubmitting(false)
+    if (!result.ok) {
+      setBanner({ variant: 'notice', text: result.error })
+      return
+    }
+    setBanner({
+      variant: 'success',
+      text: 'If an account exists for that email, we sent a reset link. Open it to set a new password.',
+    })
   }
 
   return (
@@ -207,7 +258,8 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
             <button
               type="button"
               className="auth-oauth-google"
-              onClick={handleGooglePlaceholder}
+              disabled={submitting}
+              onClick={() => void handleGoogleSignIn()}
             >
               <GoogleIcon className="auth-oauth-google-icon" />
               Continue with Google
@@ -264,18 +316,14 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
                   <button
                     type="button"
                     className="auth-linkish"
-                    onClick={() =>
-                      setBanner({
-                        variant: 'notice',
-                        text: 'Password reset: connect your auth service to send secure reset links by email.',
-                      })
-                    }
+                    disabled={submitting}
+                    onClick={() => void handleForgotPassword()}
                   >
                     Forgot password?
                   </button>
                 </div>
-                <button type="submit" className="auth-submit">
-                  Sign in
+                <button type="submit" className="auth-submit" disabled={submitting}>
+                  {submitting ? 'Signing in…' : 'Sign in'}
                 </button>
               </form>
             ) : (
@@ -394,8 +442,8 @@ export default function AuthDropdown({ menuOpen }: { menuOpen: boolean }) {
                     Remember this device
                   </label>
                 </div>
-                <button type="submit" className="auth-submit">
-                  Create account
+                <button type="submit" className="auth-submit" disabled={submitting}>
+                  {submitting ? 'Creating account…' : 'Create account'}
                 </button>
               </form>
             )}

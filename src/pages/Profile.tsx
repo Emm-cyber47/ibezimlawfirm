@@ -25,6 +25,8 @@ export default function Profile() {
   })
   const [touched, setTouched] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!editing) {
@@ -43,9 +45,10 @@ export default function Profile() {
   const initials = profileInitials(user.firstName, user.lastName)
   const hue = avatarHue(`${user.firstName}|${user.lastName}|${user.email}`)
 
-  function handleSave(e: FormEvent) {
+  async function handleSave(e: FormEvent) {
     e.preventDefault()
     setTouched(true)
+    setSaveError(null)
     const next: Record<string, string> = {}
     const fn = validatePersonName(draft.firstName, 'First name')
     if (!fn.valid) next.firstName = fn.message
@@ -55,7 +58,13 @@ export default function Profile() {
     if (!ph.valid) next.phone = ph.message
     setErrors(next)
     if (hasErrors(next)) return
-    updateProfile(draft)
+    setSaving(true)
+    const result = await updateProfile(draft)
+    setSaving(false)
+    if (!result.ok) {
+      setSaveError(result.error)
+      return
+    }
     setEditing(false)
     setTouched(false)
   }
@@ -230,9 +239,14 @@ export default function Profile() {
                   </div>
                 </fieldset>
 
+                {saveError ? (
+                  <p className="profile-save-error" role="alert">
+                    {saveError}
+                  </p>
+                ) : null}
                 <div className="profile-form-actions">
-                  <button type="submit" className="btn btn-primary">
-                    Save changes
+                  <button type="submit" className="btn btn-primary" disabled={saving}>
+                    {saving ? 'Saving…' : 'Save changes'}
                   </button>
                 </div>
               </form>
@@ -251,7 +265,7 @@ export default function Profile() {
               <span className="profile-action-sep" aria-hidden>
                 ·
               </span>
-              <button type="button" className="profile-signout" onClick={() => logout()}>
+              <button type="button" className="profile-signout" onClick={() => void logout()}>
                 Sign out
               </button>
             </div>

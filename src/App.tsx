@@ -11,6 +11,8 @@ import ResourcePost from './pages/ResourcePost.tsx'
 import Testimonials from './pages/Testimonials.tsx'
 import Profile from './pages/Profile.tsx'
 import Documents from './pages/Documents.tsx'
+import AuthConfirmed from './pages/AuthConfirmed.tsx'
+import ResetPassword from './pages/ResetPassword.tsx'
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="resources" element={<Resources />} />
         <Route path="resources/:slug" element={<ResourcePost />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="auth/confirmed" element={<AuthConfirmed />} />
+        <Route path="auth/reset-password" element={<ResetPassword />} />
         <Route
           path="profile"
           element={

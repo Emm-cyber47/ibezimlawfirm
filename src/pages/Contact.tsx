@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import FormField from '../components/FormField.tsx'
 import SocialLinks from '../components/SocialLinks.tsx'
 import { firm, practiceAreas } from '../data/site'
+import { submitContactForm } from '../lib/contactSubmissions'
 import {
   hasErrors,
   validateContactForm,
@@ -81,6 +82,8 @@ export default function Contact() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [attemptedSubmit, setAttemptedSubmit] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const phoneHref = `tel:${firm.phone.replace(/[^\d+]/g, '')}`
 
@@ -119,26 +122,34 @@ export default function Contact() {
     })
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setSubmitError('')
     setAttemptedSubmit(true)
     setTouched(CONTACT_FIELDS.reduce((acc, key) => ({ ...acc, [key]: true }), {}))
 
-    setValues((prev) => {
-      const nextErrors = validateContactForm(prev)
-      setErrors(nextErrors)
+    const nextErrors = validateContactForm(values)
+    setErrors(nextErrors)
 
-      if (hasErrors(nextErrors)) {
-        const firstInvalid = CONTACT_FIELDS.find((field) => nextErrors[field])
-        if (firstInvalid) {
-          queueMicrotask(() => document.getElementById(firstInvalid)?.focus())
-        }
-      } else {
-        setSubmitted(true)
-        queueMicrotask(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+    if (hasErrors(nextErrors)) {
+      const firstInvalid = CONTACT_FIELDS.find((field) => nextErrors[field])
+      if (firstInvalid) {
+        document.getElementById(firstInvalid)?.focus()
       }
-      return prev
-    })
+      return
+    }
+
+    setSubmitting(true)
+    const result = await submitContactForm(values)
+    setSubmitting(false)
+
+    if (!result.ok) {
+      setSubmitError(result.error)
+      return
+    }
+
+    setSubmitted(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -194,6 +205,11 @@ export default function Contact() {
                   {attemptedSubmit && hasErrors(errors) && (
                     <p className="form-summary-error" role="alert">
                       Please correct the highlighted fields before sending your message.
+                    </p>
+                  )}
+                  {submitError && (
+                    <p className="form-summary-error" role="alert">
+                      {submitError}
                     </p>
                   )}
                   <div className="contact-form-row">
@@ -298,8 +314,12 @@ export default function Contact() {
                       />
                     )}
                   </FormField>
-                  <button type="submit" className="btn btn-primary contact-submit">
-                    Send message
+                  <button
+                    type="submit"
+                    className="btn btn-primary contact-submit"
+                    disabled={submitting}
+                  >
+                    {submitting ? 'Sending…' : 'Send message'}
                   </button>
                   <p className="form-note">
                     Submitting this form does not create an attorney-client relationship.
