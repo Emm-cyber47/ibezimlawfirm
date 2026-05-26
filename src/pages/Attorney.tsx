@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner.tsx'
 import { useSiteContent } from '../hooks/useSiteContent'
 import { useContactInfo } from '../hooks/useContactInfo'
 import { attorney as staticAttorney } from '../data/site'
@@ -6,8 +7,12 @@ import attorneyPhotoFallback from '../ibezim.jpg'
 import './Attorney.css'
 
 export default function Attorney() {
-  const data = useSiteContent<any>('attorney', staticAttorney as any)
+  const { content: data, loading } = useSiteContent<any>('attorney', staticAttorney as any)
   const contactInfo = useContactInfo()
+
+  if (loading) {
+    return <LoadingSpinner message="Loading content..." />
+  }
   const phoneHref = `tel:${contactInfo.phone.replace(/[^\d+]/g, '')}`
   const photo = data.photoKey || attorneyPhotoFallback
 

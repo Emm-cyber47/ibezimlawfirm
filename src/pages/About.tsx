@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner.tsx'
 import LuxeCard from '../components/LuxeCard.tsx'
 import LuxeCardIcon from '../components/LuxeCardIcon.tsx'
 import { useSiteContent } from '../hooks/useSiteContent'
@@ -26,7 +27,11 @@ const fallbackStoryGallery = [
 ]
 
 export default function About() {
-  const data = useSiteContent<any>('aboutContent', {})
+  const { content: data, loading } = useSiteContent<any>('aboutContent', {})
+
+  if (loading) {
+    return <LoadingSpinner message="Loading content..." />
+  }
 
   const aboutPage = data.aboutPage ?? staticAboutPage
   const { label, title, paragraphs, featuredPracticeAreas } = aboutPage

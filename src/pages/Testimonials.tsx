@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner.tsx'
 import { firm, faqs, testimonials as fallbackTestimonials } from '../data/site'
 
 import officeImg from '../office.jpg'
@@ -64,16 +65,20 @@ export default function Testimonials() {
   const [items, setItems] = useState<Testimonial[]>(
     fallbackTestimonials as unknown as Testimonial[],
   )
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let active = true
     async function load() {
       try {
+        setLoading(true)
         const data = await listAllClientTestimonials()
         if (!active) return
         if (data.length > 0) setItems(data)
       } catch (error) {
         console.error(error)
+      } finally {
+        if (active) setLoading(false)
       }
     }
     void load()
@@ -83,6 +88,10 @@ export default function Testimonials() {
   }, [])
 
   const testimonials = items
+
+  if (loading) {
+    return <LoadingSpinner message="Loading testimonials..." />
+  }
 
   return (
     <>

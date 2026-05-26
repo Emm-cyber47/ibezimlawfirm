@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import HeroHeadlineCarousel from '../components/HeroHeadlineCarousel.tsx'
 import HeroTrustBar from '../components/HeroTrustBar.tsx'
 import HomeAboutSection from '../components/HomeAboutSection.tsx'
+import LoadingSpinner from '../components/LoadingSpinner.tsx'
 import PracticeAreaCard from '../components/PracticeAreaCard.tsx'
 import LuxeCard from '../components/LuxeCard.tsx'
 import LuxeCardIcon from '../components/LuxeCardIcon.tsx'
@@ -20,8 +21,13 @@ type AreaEntry = {
 }
 
 export default function Home() {
-  const content = useSiteContent<any>('homeContent', {})
-  const areas = useSiteContent<AreaEntry[]>('practiceAreas', staticPracticeAreas as unknown as AreaEntry[])
+  const { content, loading: contentLoading } = useSiteContent<any>('homeContent', {})
+  const { content: areas, loading: areasLoading } = useSiteContent<AreaEntry[]>('practiceAreas', staticPracticeAreas as unknown as AreaEntry[])
+  const loading = contentLoading || areasLoading
+
+  if (loading) {
+    return <LoadingSpinner message="Loading content..." />
+  }
 
   const firmData = content.firm ?? staticFirm
   const headlines = content.heroHeadlines ?? staticHeroHeadlines

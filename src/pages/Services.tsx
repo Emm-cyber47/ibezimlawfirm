@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner.tsx'
 import PracticeAreaCard from '../components/PracticeAreaCard.tsx'
 import { useSiteContent } from '../hooks/useSiteContent'
 import { practiceAreas as staticPracticeAreas } from '../data/site'
@@ -12,7 +13,11 @@ type AreaEntry = {
 }
 
 export default function Services() {
-  const areas = useSiteContent<AreaEntry[]>('practiceAreas', staticPracticeAreas as unknown as AreaEntry[])
+  const { content: areas, loading } = useSiteContent<AreaEntry[]>('practiceAreas', staticPracticeAreas as unknown as AreaEntry[])
+
+  if (loading) {
+    return <LoadingSpinner message="Loading practice areas..." />
+  }
 
   return (
     <>

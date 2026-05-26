@@ -30,7 +30,7 @@ const staticDefaults: ContactInfo = {
 }
 
 export function useContactInfo(): ContactInfo {
-  const dynamic = useSiteContent<Partial<ContactInfo>>('otherInfo', {})
+  const { content: dynamic } = useSiteContent<Partial<ContactInfo>>('otherInfo', {})
 
   return {
     ...staticDefaults,
