@@ -659,7 +659,7 @@
 /* Keep "More articles..." visually under the right empty column area (same grid as main article) */
 .resource-post-continue .container {
   display: grid;
-
+}
 .resource-post-continue-header {
   margin-bottom: 2rem;
 }
