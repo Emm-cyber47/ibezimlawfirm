@@ -6,8 +6,6 @@ import medicalImg from '../medical.jpg'
 import realEstateImg from '../real.jpg'
 import divorceImg from '../div.jpg'
 import truckImg from '../truck.jpg'
-import { practiceAreas } from '../data/site'
-
 export const practiceAreaImages = {
   personalInjury: personalInjuryImg,
   truckAccidents: truckImg,
@@ -19,8 +17,8 @@ export const practiceAreaImages = {
   divorce: divorceImg,
 } as const
 
-export type PracticeAreaImageKey = (typeof practiceAreas)[number]['imageKey']
+export type PracticeAreaImageKey = keyof typeof practiceAreaImages
 
-export function getPracticeAreaImage(imageKey: PracticeAreaImageKey) {
-  return practiceAreaImages[imageKey]
+export function getPracticeAreaImage(imageKey: string) {
+  return practiceAreaImages[imageKey as PracticeAreaImageKey]
 }

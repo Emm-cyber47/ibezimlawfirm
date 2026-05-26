@@ -8,10 +8,10 @@ export type ContactInfo = {
   secondEmail: string
   address: string
   socialLinks: {
-    facebook: string
-    instagram: string
-    tiktok: string
-    linkedin: string
+    facebook?: string
+    instagram?: string
+    tiktok?: string
+    linkedin?: string
   }
 }
 
@@ -22,10 +22,10 @@ const staticDefaults: ContactInfo = {
   secondEmail: 'Receptionist@ibezimlaw.com',
   address: staticFirm.address,
   socialLinks: {
-    facebook: staticSocialLinks.facebook,
-    instagram: staticSocialLinks.instagram,
-    tiktok: staticSocialLinks.tiktok,
-    linkedin: staticSocialLinks.linkedin,
+    facebook: staticSocialLinks.facebook ?? '',
+    instagram: staticSocialLinks.instagram ?? '',
+    tiktok: staticSocialLinks.tiktok ?? '',
+    linkedin: staticSocialLinks.linkedin ?? '',
   },
 }
 

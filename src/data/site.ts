@@ -84,12 +84,12 @@ export const heroTrustPillars = [
 ] as const
 
 /** Update with your live profile URLs */
-export const socialLinks = {
-  // facebook: 'https://web.facebook.com/sebastian.ibezim.7?_rdc=1&_rdr#',
-  // linkedin: 'https://www.linkedin.com/in/sebastian-ibezim-jr-92153a33/',
-  // instagram: 'https://www.instagram.com/ibezimlawoffices?igsh=MWI1OXN3dHk5N3Bydw==',
-  // tiktok: 'https://www.tiktok.com/@ibezim.law.office?_r=1&_t=ZT-96LNPJAoTPS',
-} as const
+export const socialLinks: {
+  facebook?: string
+  linkedin?: string
+  instagram?: string
+  tiktok?: string
+} = {} as const
 
 /** Blog posts author display */
 export const blogAuthor = {
@@ -237,134 +237,163 @@ export const blogTags = [
   'Workers Compensation',
 ] as const
 
-export const blogPosts = [
-  // {
-  //   slug: 'understanding-corporate-compliance-New-Jersey',
-  //   title: 'Understanding Corporate Compliance in New Jersey',
-  //   excerpt:
-  //     'Key regulatory obligations every business owner should know before scaling operations in the Garden State.',
-  //   date: '2026-04-12',
-  //   category: 'Corporate Law',
-  //   author: blogAuthor.name,
-  //   readTime: '6 min read',
-  //   imageKey: 'office',
-  //   body: [
-  //     'New Jersey’s business environment is shaped by federal law, state statutes, and industry-specific regulations. For growing companies, compliance is not merely a box-ticking exercise—it is foundational to sustainable growth and credibility with partners and investors.',
-  //     'From formation documents and annual reports to employment policies, tax obligations, and licensing, businesses must stay proactive. New Jersey’s Division of Revenue and federal agencies expect timely filings and accurate disclosures.',
-  //     'We recommend a compliance review at least annually, with updated policies for contracts, workplace practices, and record-keeping. Early structure prevents costly disputes and penalties down the line.',
-  //   ],
-  // },
-  // {
-  //   slug: 'estate-planning-essentials-families',
-  //   title: 'Estate Planning Essentials for Families',
-  //   excerpt:
-  //     'Why a valid will and clear succession plan matter—and how New Jersey families can get started.',
-  //   date: '2026-03-28',
-  //   category: 'Estate Planning',
-  //   author: blogAuthor.name,
-  //   readTime: '5 min read',
-  //   imageKey: 'door',
-  //   body: [
-  //     'Estate planning ensures your assets are distributed according to your wishes and that your loved ones are protected. In New Jersey, this typically begins with a properly executed will, supported where appropriate by trusts and powers of attorney.',
-  //     'Without a will, intestacy rules apply—and the outcome may not reflect your intentions, especially in blended families or where property spans multiple states.',
-  //     'Start by listing assets, identifying beneficiaries, and appointing executors you trust. Our team guides clients through drafting, safe storage, and periodic review as life circumstances change.',
-  //   ],
-  // },
-  // {
-  //   slug: 'navigating-commercial-disputes',
-  //   title: 'Navigating Commercial Disputes: Litigation vs. Arbitration',
-  //   excerpt:
-  //     'Choosing the right path when a business relationship breaks down in New Jersey courts or private forums.',
-  //   date: '2026-02-15',
-  //   category: 'Litigation',
-  //   author: blogAuthor.name,
-  //   readTime: '7 min read',
-  //   imageKey: 'reception',
-  //   body: [
-  //     'When commercial relationships sour, parties often face a choice between court litigation and arbitration. Each route has distinct advantages depending on confidentiality needs, speed, cost, and enforceability of awards.',
-  //     'Arbitration clauses in contracts can streamline resolution and keep matters private—but only if drafted clearly at the outset. Litigation may be preferable where injunctive relief or precedent is critical.',
-  //     'Early legal advice helps preserve evidence, manage communications, and explore settlement before positions harden. Our dispute resolution practice advises on strategy from pre-action through to enforcement.',
-  //   ],
-  // },
-  // {
-  //   slug: 'personal-injury-steps-new-jersey',
-  //   title: 'What to Do After a Personal Injury in New Jersey',
-  //   excerpt:
-  //     'Practical steps to protect your health, your rights, and your potential claim after an accident.',
-  //   date: '2026-01-20',
-  //   category: 'Personal Injury',
-  //   author: blogAuthor.name,
-  //   readTime: '5 min read',
-  //   imageKey: 'officeoutdoor',
-  //   body: [
-  //     'After an accident, your first priorities are safety and medical care. Once you are stable, documenting what happened becomes essential—photos, witness information, and official reports can strengthen a future claim.',
-  //     'Avoid giving recorded statements to insurance companies before speaking with an attorney. Seemingly casual comments can be used to minimize your injuries or shift blame.',
-  //     'New Jersey personal injury claims are subject to statutes of limitations and specific procedural rules. Consulting a lawyer early helps preserve evidence and identify all sources of compensation.',
-  //   ],
-  // },
-] as const
+export type BlogPostData = {
+  slug: string
+  title: string
+  excerpt: string
+  date: string
+  category: string
+  author: string
+  readTime: string
+  imageKey: string
+  body: string[]
+}
 
-export const practiceAreas = [
-  // {
-  //   title: 'Personal Injury',
-  //   imageKey: 'personalInjury',
-  //   description:
-  //     'Representation for individuals injured through negligence—including auto accidents, slips and falls, and other incidents—pursuing compensation for medical expenses, lost income, and pain and suffering.',
-  //   icon: 'scale',
-  // },
-  // {
-  //   title: 'Truck and Car Accidents',
-  //   imageKey: 'truckAccidents',
-  //   description:
-  //     'Focused advocacy after car, truck, and commercial vehicle crashes—from investigating fault and insurance coverage to pursuing full compensation for serious injuries, property damage, and long-term losses.',
-  //   icon: 'scale',
-  // },
-  // {
-  //   title: 'Immigration',
-  //   imageKey: 'immigration',
-  //   description:
-  //     'Assistance with visas, green cards, citizenship applications, deportation defense, and family-based petitions for clients navigating U.S. immigration law.',
-  //   icon: 'document',
-  // },
-  // {
-  //   title: 'Workers Compensation',
-  //   imageKey: 'workersComp',
-  //   description:
-  //     'Helping injured employees file claims, challenge denials, and secure medical treatment and wage benefits under New Jersey workers’ compensation law.',
-  //   icon: 'people',
-  // },
-  // {
-  //   title: 'Traffic Matters',
-  //   imageKey: 'traffic',
-  //   description:
-  //     'Defense and resolution of traffic citations, license suspensions, DUI/DWI charges, and municipal court matters throughout New Jersey.',
-  //   icon: 'scale',
-  // },
-  // {
-  //   title: 'Medical Malpractice',
-  //   imageKey: 'medical',
-  //   description:
-  //     'Advocacy for patients harmed by negligent medical care—including misdiagnosis, surgical errors, and failure to treat—seeking accountability and fair recovery.',
-  //   icon: 'building',
-  // },
-  // {
-  //   title: 'Real Estate Matters',
-  //   imageKey: 'realEstate',
-  //   description:
-  //     'Support for residential and commercial transactions, title issues, leases, closings, and property disputes for buyers, sellers, and landlords.',
-  //   icon: 'home',
-  // },
-  // {
-  //   title: 'Uncontested Divorce',
-  //   imageKey: 'divorce',
-  //   description:
-  //     'Efficient representation when spouses agree on terms—handling filings, equitable distribution, and support arrangements without unnecessary conflict.',
-  //   icon: 'people',
-  // },
-] as const
+export const blogPosts: BlogPostData[] = []
+// Temporarily empty - blog posts are now managed via the admin dashboard (Supabase).
+// When you want to restore seeded data, uncomment the entries below.
+//   {
+//     slug: 'understanding-corporate-compliance-New-Jersey',
+//     title: 'Understanding Corporate Compliance in New Jersey',
+//     excerpt:
+//       'Key regulatory obligations every business owner should know before scaling operations in the Garden State.',
+//     date: '2026-04-12',
+//     category: 'Corporate Law',
+//     author: blogAuthor.name,
+//     readTime: '6 min read',
+//     imageKey: 'office',
+//     body: [
+//       'New Jersey’s business environment is shaped by federal law, state statutes, and industry-specific regulations. For growing companies, compliance is not merely a box-ticking exercise—it is foundational to sustainable growth and credibility with partners and investors.',
+//       'From formation documents and annual reports to employment policies, tax obligations, and licensing, businesses must stay proactive. New Jersey’s Division of Revenue and federal agencies expect timely filings and accurate disclosures.',
+//       'We recommend a compliance review at least annually, with updated policies for contracts, workplace practices, and record-keeping. Early structure prevents costly disputes and penalties down the line.',
+//     ],
+//   },
+//   {
+//     slug: 'estate-planning-essentials-families',
+//     title: 'Estate Planning Essentials for Families',
+//     excerpt:
+//       'Why a valid will and clear succession plan matter—and how New Jersey families can get started.',
+//     date: '2026-03-28',
+//     category: 'Estate Planning',
+//     author: blogAuthor.name,
+//     readTime: '5 min read',
+//     imageKey: 'door',
+//     body: [
+//       'Estate planning ensures your assets are distributed according to your wishes and that your loved ones are protected. In New Jersey, this typically begins with a properly executed will, supported where appropriate by trusts and powers of attorney.',
+//       'Without a will, intestacy rules apply—and the outcome may not reflect your intentions, especially in blended families or where property spans multiple states.',
+//       'Start by listing assets, identifying beneficiaries, and appointing executors you trust. Our team guides clients through drafting, safe storage, and periodic review as life circumstances change.',
+//     ],
+//   },
+//   {
+//     slug: 'navigating-commercial-disputes',
+//     title: 'Navigating Commercial Disputes: Litigation vs. Arbitration',
+//     excerpt:
+//       'Choosing the right path when a business relationship breaks down in New Jersey courts or private forums.',
+//     date: '2026-02-15',
+//     category: 'Litigation',
+//     author: blogAuthor.name,
+//     readTime: '7 min read',
+//     imageKey: 'reception',
+//     body: [
+//       'When commercial relationships sour, parties often face a choice between court litigation and arbitration. Each route has distinct advantages depending on confidentiality needs, speed, cost, and enforceability of awards.',
+//       'Arbitration clauses in contracts can streamline resolution and keep matters private—but only if drafted clearly at the outset. Litigation may be preferable where injunctive relief or precedent is critical.',
+//       'Early legal advice helps preserve evidence, manage communications, and explore settlement before positions harden. Our dispute resolution practice advises on strategy from pre-action through to enforcement.',
+//     ],
+//   },
+//   {
+//     slug: 'personal-injury-steps-new-jersey',
+//     title: 'What to Do After a Personal Injury in New Jersey',
+//     excerpt:
+//       'Practical steps to protect your health, your rights, and your potential claim after an accident.',
+//     date: '2026-01-20',
+//     category: 'Personal Injury',
+//     author: blogAuthor.name,
+//     readTime: '5 min read',
+//     imageKey: 'officeoutdoor',
+//     body: [
+//       'After an accident, your first priorities are safety and medical care. Once you are stable, documenting what happened becomes essential—photos, witness information, and official reports can strengthen a future claim.',
+//       'Avoid giving recorded statements to insurance companies before speaking with an attorney. Seemingly casual comments can be used to minimize your injuries or shift blame.',
+//       'New Jersey personal injury claims are subject to statutes of limitations and specific procedural rules. Consulting a lawyer early helps preserve evidence and identify all sources of compensation.',
+//     ],
+//   },
+// ]
+
+export type PracticeAreaData = {
+  title: string
+  imageKey: string
+  description: string
+  icon: string
+}
+
+export const practiceAreas: PracticeAreaData[] = []
+// Temporarily empty - practice areas are now managed via the admin dashboard (Supabase).
+//   {
+//     title: 'Personal Injury',
+//     imageKey: 'personalInjury',
+//     description:
+//       'Representation for individuals injured through negligence—including auto accidents, slips and falls, and other incidents—pursuing compensation for medical expenses, lost income, and pain and suffering.',
+//     icon: 'scale',
+//   },
+//   {
+//     title: 'Truck and Car Accidents',
+//     imageKey: 'truckAccidents',
+//     description:
+//       'Focused advocacy after car, truck, and commercial vehicle crashes—from investigating fault and insurance coverage to pursuing full compensation for serious injuries, property damage, and long-term losses.',
+//     icon: 'scale',
+//   },
+//   {
+//     title: 'Immigration',
+//     imageKey: 'immigration',
+//     description:
+//       'Assistance with visas, green cards, citizenship applications, deportation defense, and family-based petitions for clients navigating U.S. immigration law.',
+//     icon: 'document',
+//   },
+//   {
+//     title: 'Workers Compensation',
+//     imageKey: 'workersComp',
+//     description:
+//       'Helping injured employees file claims, challenge denials, and secure medical treatment and wage benefits under New Jersey workers’ compensation law.',
+//     icon: 'people',
+//   },
+//   {
+//     title: 'Traffic Matters',
+//     imageKey: 'traffic',
+//     description:
+//       'Defense and resolution of traffic citations, license suspensions, DUI/DWI charges, and municipal court matters throughout New Jersey.',
+//     icon: 'scale',
+//   },
+//   {
+//     title: 'Medical Malpractice',
+//     imageKey: 'medical',
+//     description:
+//       'Advocacy for patients harmed by negligent medical care—including misdiagnosis, surgical errors, and failure to treat—seeking accountability and fair recovery.',
+//     icon: 'building',
+//   },
+//   {
+//     title: 'Real Estate Matters',
+//     imageKey: 'realEstate',
+//     description:
+//       'Support for residential and commercial transactions, title issues, leases, closings, and property disputes for buyers, sellers, and landlords.',
+//     icon: 'home',
+//   },
+//   {
+//     title: 'Uncontested Divorce',
+//     imageKey: 'divorce',
+//     description:
+//       'Efficient representation when spouses agree on terms—handling filings, equitable distribution, and support arrangements without unnecessary conflict.',
+//     icon: 'people',
+//   },
+// ]
 
 /** About page — main content block */
-export const aboutPage = {
+export type AboutPageData = {
+  label?: string
+  title?: string
+  paragraphs: string[]
+  featuredPracticeAreas: string[]
+}
+
+export const aboutPage: AboutPageData = {
   // label: 'About Us',
   // title: 'Dedicated to Efficient, Effective Resolution of Cases',
   paragraphs: [
@@ -380,27 +409,44 @@ export const aboutPage = {
     // 'Real Estate Matters',
     // 'Uncontested Divorce',
   ],
-} as const
+}
 
-export const values = [
-  // {
-  //   title: 'Integrity',
-  //   text: 'We uphold the highest ethical standards in every matter we handle.',
-  //   icon: 'integrity' as const,
-  // },
-  // {
-  //   title: 'Excellence',
-  //   text: 'Rigorous preparation and sharp advocacy define our approach to the law.',
-  //   icon: 'excellence' as const,
-  // },
-  // {
-  //   title: 'Client Focus',
-  //   text: 'Your goals guide our strategy—we communicate clearly and act decisively.',
-  //   icon: 'client' as const,
-  // },
-] as const
+export type ValueData = {
+  title: string
+  text: string
+  icon: string
+}
 
-export const attorney = {
+export const values: ValueData[] = []
+// Temporarily empty - values are managed via the admin dashboard.
+//   {
+//     title: 'Integrity',
+//     text: 'We uphold the highest ethical standards in every matter we handle.',
+//     icon: 'integrity' as const,
+//   },
+//   {
+//     title: 'Excellence',
+//     text: 'Rigorous preparation and sharp advocacy define our approach to the law.',
+//     icon: 'excellence' as const,
+//   },
+//   {
+//     title: 'Client Focus',
+//     text: 'Your goals guide our strategy—we communicate clearly and act decisively.',
+//     icon: 'client' as const,
+//   },
+// ]
+
+export type AttorneyData = {
+  name?: string
+  title?: string
+  subtitle?: string
+  bio?: string[]
+  education?: string[]
+  admissions?: string[]
+  highlights?: string[]
+}
+
+export const attorney: AttorneyData = {
   // name: 'Sebastian O. Ibezim Jr.',
   // title: 'Attorney at Law',
   // subtitle: 'Founder & Managing Attorney, Ibezim Law Offices, P.C.',
@@ -424,7 +470,7 @@ export const attorney = {
   //   'Immigration & naturalization',
   //   'Workers’ compensation claims',
   // ],
-} as const
+}
 
 export const team = [
   {

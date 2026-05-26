@@ -25,10 +25,10 @@ export default function EditOtherInfo() {
     secondEmail: 'Receptionist@ibezimlaw.com',
     address: staticFirm.address,
     socialLinks: {
-      facebook: staticSocialLinks.facebook,
-      instagram: staticSocialLinks.instagram,
-      tiktok: staticSocialLinks.tiktok,
-      linkedin: staticSocialLinks.linkedin,
+      facebook: staticSocialLinks.facebook ?? '',
+      instagram: staticSocialLinks.instagram ?? '',
+      tiktok: staticSocialLinks.tiktok ?? '',
+      linkedin: staticSocialLinks.linkedin ?? '',
     },
   })
 
