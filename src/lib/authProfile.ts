@@ -12,6 +12,7 @@ type ProfileRow = {
   last_name: string
   phone: string
   email: string
+  role?: string
   avatar_url?: string | null
 }
 
@@ -25,7 +26,8 @@ type ResolvedProfile = {
 /** Avoid repeated OAuth writes in the same browser session */
 const oauthSyncDoneFor = new Set<string>()
 
-const PROFILE_BASE_SELECT = 'first_name, last_name, phone, email'
+const PROFILE_BASE_SELECT = 'first_name, last_name, phone, email, role'
+
 
 /** Set VITE_PROFILES_AVATAR_COLUMN=true in .env.local after running migration 20250521000003 */
 function profilesAvatarColumnEnabled(): boolean {
@@ -46,6 +48,7 @@ async function loadProfileRow(
       .select(`${PROFILE_BASE_SELECT}, avatar_url`)
       .eq('id', userId)
       .maybeSingle()
+
     if (error) {
       if (import.meta.env.DEV) console.warn('profiles fetch:', error.message)
       return null
@@ -58,6 +61,7 @@ async function loadProfileRow(
     .select(PROFILE_BASE_SELECT)
     .eq('id', userId)
     .maybeSingle()
+
 
   if (error) {
     if (import.meta.env.DEV) console.warn('profiles fetch:', error.message)
@@ -211,6 +215,10 @@ export async function fetchAuthUserProfile(user: User): Promise<AuthUserProfile>
     await syncProfileFromOAuth(user.id, email, row, resolved, canStoreAvatarInDb)
   }
 
+  // Attempt to read admin role from profiles row if it exists.
+  // Note: AuthUserProfile type currently doesn't include role; we attach it dynamically.
+  const dbRole = (row as any)?.role
+
   return {
     id: user.id,
     email: normalizeEmail(row?.email ?? email),
@@ -219,8 +227,11 @@ export async function fetchAuthUserProfile(user: User): Promise<AuthUserProfile>
     phone: resolved.phone,
     avatarUrl: resolved.avatarUrl || undefined,
     authMethod,
+    ...(dbRole ? { role: dbRole } : {}),
   }
 }
+
+
 
 export async function updateAuthUserProfile(
   userId: string,

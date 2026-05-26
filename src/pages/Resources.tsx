@@ -1,17 +1,37 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { blogPosts, blogTags, firm } from '../data/site'
-import { formatBlogDate, getBlogCategories, getRecentPosts } from '../lib/blogHelpers'
+import { firm, blogAuthor } from '../data/site'
+import { formatBlogDate } from '../lib/blogHelpers'
 import { getBlogImage } from '../lib/blogImages'
 import { nativeSharePost } from '../lib/sharePost'
 import { validateEmail, validateSearchQuery } from '../lib/formValidation'
 import { usePostEngagement } from '../hooks/usePostEngagement'
 import adminImg from '../admin.jpg'
-import { blogAuthor } from '../data/site'
+import { getSupabase } from '../lib/supabase'
 import './Resources.css'
 
 const POSTS_PER_PAGE = 4
+
+type BlogPostRow = {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  date: string
+  category: string
+  image_key: string
+}
+
+type BlogPostView = {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  date: string
+  category: string
+  imageKey: string
+}
 
 function ShareIcon() {
   return (
@@ -60,16 +80,62 @@ export default function Resources() {
   const [newsletterDone, setNewsletterDone] = useState(false)
   const [searchError, setSearchError] = useState('')
   const [newsletterError, setNewsletterError] = useState('')
+  const [dbPosts, setDbPosts] = useState<BlogPostView[]>([])
+  const [loadingPosts, setLoadingPosts] = useState(true)
 
-  const categories = useMemo(() => getBlogCategories(), [])
+  useEffect(() => {
+    async function fetchPosts() {
+      const supabase = getSupabase()
+      if (!supabase) {
+        setDbPosts([])
+        setLoadingPosts(false)
+        return
+      }
+
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('date', { ascending: false })
+
+      if (error) {
+        console.error(error)
+        setDbPosts([])
+        setLoadingPosts(false)
+        return
+      }
+
+      const mapped: BlogPostView[] =
+        (data ?? []).map((p: BlogPostRow) => ({
+          id: p.id,
+          slug: p.slug,
+          title: p.title,
+          excerpt: p.excerpt,
+          date: p.date,
+          category: p.category,
+          imageKey: p.image_key,
+        })) ?? []
+
+      setDbPosts(mapped)
+      setLoadingPosts(false)
+    }
+
+    void fetchPosts()
+  }, [])
+
+  const categories = useMemo(() => {
+    // getBlogCategories() previously derived from src/data/site.ts.
+    // We keep its structure but compute from dbPosts.
+    const counts = new Map<string, number>()
+    for (const p of dbPosts) counts.set(p.category, (counts.get(p.category) ?? 0) + 1)
+    return Array.from(counts.entries()).sort((a, b) => a[0].localeCompare(b[0]))
+  }, [dbPosts])
 
   useEffect(() => {
     const cat = searchParams.get('category')
-    const valid =
-      cat && blogPosts.some((post) => post.category === cat) ? cat : null
+    const valid = cat && dbPosts.some((post) => post.category === cat) ? cat : null
     setCategoryFilter(valid)
     setPage(1)
-  }, [searchParams])
+  }, [searchParams, dbPosts])
 
   function applyCategoryFilter(name: string | null) {
     setCategoryFilter(name)
@@ -80,7 +146,7 @@ export default function Resources() {
 
   const filteredPosts = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
-    return blogPosts.filter((post) => {
+    return dbPosts.filter((post) => {
       if (categoryFilter && post.category !== categoryFilter) return false
       if (tagFilter) {
         const hay = `${post.title} ${post.category} ${post.excerpt}`.toLowerCase()
@@ -93,7 +159,7 @@ export default function Resources() {
         post.category.toLowerCase().includes(q)
       )
     })
-  }, [searchQuery, categoryFilter, tagFilter])
+  }, [searchQuery, categoryFilter, tagFilter, dbPosts])
 
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE))
   const currentPage = Math.min(page, totalPages)
@@ -102,7 +168,20 @@ export default function Resources() {
     currentPage * POSTS_PER_PAGE,
   )
 
-  const recentPosts = getRecentPosts()
+  const recentPosts = useMemo(() => {
+    return [...dbPosts].slice(0, 5)
+  }, [dbPosts])
+
+  const tags = useMemo(() => {
+    // Re-create a tag cloud compatible with your existing tagFilter logic
+    // (we match tagFilter by checking title/category/excerpt includes tag).
+    // So tags are derived from categories + simple tokenization of categories.
+    const set = new Set<string>()
+    for (const p of dbPosts) {
+      set.add(p.category)
+    }
+    return Array.from(set).sort((a, b) => a.localeCompare(b))
+  }, [dbPosts])
 
   function handleSearch(e: FormEvent) {
     e.preventDefault()
@@ -148,7 +227,9 @@ export default function Resources() {
         <div className="container resources-layout-grid">
           <div className="resources-posts">
             <div className="resources-posts-grid">
-              {paginatedPosts.length === 0 ? (
+              {loadingPosts ? (
+                <p className="resources-empty">Loading articles...</p>
+              ) : paginatedPosts.length === 0 ? (
                 <p className="resources-empty">No articles match your search. Try another term.</p>
               ) : (
                 paginatedPosts.map((post) => (
@@ -286,7 +367,7 @@ export default function Resources() {
                     onClick={() => applyCategoryFilter(null)}
                   >
                     <span>All articles</span>
-                    <span>({blogPosts.length})</span>
+                    <span>({dbPosts.length})</span>
                   </button>
                 </li>
                 {categories.map(([name, count]) => (
@@ -308,7 +389,7 @@ export default function Resources() {
               <span className="luxe-card-shine" aria-hidden />
               <h3>Tag cloud</h3>
               <div className="sidebar-tags">
-                {blogTags.map((tag) => (
+                {tags.map((tag) => (
                   <button
                     key={tag}
                     type="button"
@@ -369,3 +450,84 @@ export default function Resources() {
     </>
   )
 }
+
+
+// import { useEffect, useState } from 'react'
+// import { Link } from 'react-router-dom'
+// import { getSupabase } from '../lib/supabase'
+// import { formatBlogDate } from '../lib/blogHelpers'
+// import { getBlogImage } from '../lib/blogImages'
+
+// type BlogPost = {
+//   id: string
+//   slug: string
+//   title: string
+//   excerpt: string
+//   date: string
+//   category: string
+//   image_key: string
+// }
+
+// export default function Resources() {
+//   const [posts, setPosts] = useState<BlogPost[]>([])
+//   const [loading, setLoading] = useState(true)
+
+//   useEffect(() => {
+//     async function fetchPosts() {
+//       const supabase = getSupabase()
+
+//       const { data, error } = await supabase
+//         .from('blog_posts')
+//         .select('*')
+//         .order('date', { ascending: false })
+
+//       if (error) {
+//         console.error(error)
+//         setLoading(false)
+//         return
+//       }
+
+//       setPosts(data ?? [])
+//       setLoading(false)
+//     }
+
+//     fetchPosts()
+//   }, [])
+
+//   if (loading) {
+//     return (
+//       <section className="section">
+//         <div className="container">Loading articles...</div>
+//       </section>
+//     )
+//   }
+
+//   return (
+//     <section className="section">
+//       <div className="container">
+//         <h1 className="section-title">Resources</h1>
+
+//         <div className="blog-grid">
+//           {posts.map((post) => (
+//             <article key={post.id} className="blog-card">
+//               <Link to={`/resources/${post.slug}`}>
+//                 <img src={getBlogImage(post.image_key)} alt={post.title} />
+
+//                 <div className="blog-card-content">
+//                   <h2>{post.title}</h2>
+
+//                   <p>{post.excerpt}</p>
+
+//                   <div className="blog-meta">
+//                     <span>{post.category}</span>
+//                     <time>{formatBlogDate(post.date)}</time>
+//                   </div>
+//                 </div>
+//               </Link>
+//             </article>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   )
+// }

@@ -7,6 +7,7 @@ import {
   type ReactionType,
 } from '../lib/blogEngagement'
 import { useAuth } from '../context/AuthContext'
+import { getSupabase, isSupabaseConfigured } from '../lib/supabase'
 import { isValidResult, validateCommentText } from '../lib/formValidation'
 import {
   copyPostLink,
@@ -85,7 +86,7 @@ export default function BlogEngagement({ slug, title, excerpt }: BlogEngagementP
     return (commentAttempted || commentTouched[field]) && Boolean(commentErrors[field])
   }
 
-  function handleCommentSubmit(e: FormEvent) {
+  async function handleCommentSubmit(e: FormEvent) {
     e.preventDefault()
     if (!user) return
 
@@ -99,7 +100,42 @@ export default function BlogEngagement({ slug, title, excerpt }: BlogEngagementP
       return
     }
 
-    addComment(slug, displayNameFromUser(user), commentText)
+    const name = displayNameFromUser(user)
+
+    // 1) Immediate UX (local storage engagement)
+    addComment(slug, name, commentText)
+
+    // 2) Persist to Supabase so admin table can see it
+    if (isSupabaseConfigured) {
+      try {
+        const supabase = getSupabase()
+        const visitorId =
+          localStorage.getItem('ibezimlaw_blog_visitor') ?? null
+
+        const payload = {
+          post_slug: slug,
+          author_name: name,
+          message: commentText.trim(),
+          visitor_id: visitorId,
+          user_id: user.id ?? null,
+        }
+
+        const { error, data } = await supabase
+          .from('blog_comments')
+          .insert(payload)
+          .select('*')
+          .single()
+
+        if (error) {
+          console.error('Failed to insert comment into Supabase', { error, payload })
+        } else {
+          console.log('Inserted comment into Supabase', data)
+        }
+      } catch (err) {
+        console.error('Supabase insert exception', err)
+      }
+    }
+
     setCommentText('')
     setCommentErrors({})
     setCommentTouched({})

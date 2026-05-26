@@ -6,11 +6,16 @@ import './PracticeAreaCard.css'
 type PracticeAreaCardProps = {
   title: string
   description: string
-  imageKey: PracticeAreaImageKey
+  imageKey: string
 }
 
 export default function PracticeAreaCard({ title, description, imageKey }: PracticeAreaCardProps) {
-  const image = getPracticeAreaImage(imageKey)
+  // If imageKey is a URL (starts with http), use it directly.
+  // Otherwise resolve it from the local static image map.
+  const image = imageKey.startsWith('http')
+    ? imageKey
+    : getPracticeAreaImage(imageKey as PracticeAreaImageKey)
+
   const contactHref = `/contact?area=${encodeURIComponent(title)}`
 
   return (

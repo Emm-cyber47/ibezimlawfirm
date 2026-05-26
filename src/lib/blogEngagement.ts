@@ -137,6 +137,9 @@ export function addComment(
   }
   data[slug] = updated
   writeAll(data)
+
+  // NOTE: Supabase insert is handled by the caller when running in Supabase mode.
+  // This keeps this function synchronous for local UX, while still allowing DB-backed writes elsewhere.
   return comment
 }
 

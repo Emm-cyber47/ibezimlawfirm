@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { firm, navLinks, practiceAreas, affiliations } from '../data/site'
+import { useContactInfo } from '../hooks/useContactInfo'
 import logoImg from '../ibezimlogo.png'
 import part1Img from '../part1.jpg'
 import part2Img from '../part2.jpg'
@@ -18,11 +19,13 @@ const AFFILIATION_PATHS = ['/', '/about', '/attorney', '/contact', '/testimonial
 
 export default function Footer() {
   const { pathname } = useLocation()
+  const contactInfo = useContactInfo()
   const showAffiliations = AFFILIATION_PATHS.includes(
     pathname as (typeof AFFILIATION_PATHS)[number],
   )
   const year = new Date().getFullYear()
-  const phoneHref = `tel:${firm.phone.replace(/[^\d+]/g, '')}`
+  const phoneHref = `tel:${contactInfo.phone.replace(/[^\d+]/g, '')}`
+  const faxHref = `tel:${contactInfo.fax.replace(/[^\d+]/g, '')}`
 
   return (
     <footer className="footer">
@@ -93,12 +96,18 @@ export default function Footer() {
           <div>
             <h3 className="footer-heading">Contact</h3>
             <address className="footer-contact">
-              <p>{firm.address}</p>
+              <p>{contactInfo.address}</p>
               <p>
-                <a href={phoneHref}>{firm.phone}</a>
+                <a href={phoneHref}>{contactInfo.phone}</a>
               </p>
               <p>
-                <a href={`mailto:${firm.email}`}>{firm.email}</a>
+                Fax: <a href={faxHref}>{contactInfo.fax}</a>
+              </p>
+              <p>
+                <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+              </p>
+              <p>
+                <a href={`mailto:${contactInfo.secondEmail}`}>{contactInfo.secondEmail}</a>
               </p>
               <p>{firm.hours}</p>
             </address>

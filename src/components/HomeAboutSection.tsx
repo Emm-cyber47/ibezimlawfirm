@@ -1,11 +1,21 @@
 import { Link } from 'react-router-dom'
-import { homeAboutSection } from '../data/site'
-import thelawImg from '../thelaw.jpg'
+import { homeAboutSection as staticHomeAbout } from '../data/site'
 import './HomeAboutSection.css'
 
-type HighlightIcon = (typeof homeAboutSection.highlights)[number]['icon']
+type HighlightEntry = {
+  label: string
+  icon: string
+}
 
-function HighlightIconSvg({ type }: { type: HighlightIcon }) {
+type Props = {
+  label?: string
+  title?: string
+  excerpt?: string
+  highlights?: HighlightEntry[]
+  imageUrl?: string
+}
+
+function HighlightIconSvg({ type }: { type: string }) {
   const props = {
     viewBox: '0 0 24 24',
     fill: 'none',
@@ -68,21 +78,29 @@ function HighlightIconSvg({ type }: { type: HighlightIcon }) {
   }
 }
 
-export default function HomeAboutSection() {
-  const { label, title, excerpt, highlights } = homeAboutSection
-
+export default function HomeAboutSection({
+  label = staticHomeAbout.label,
+  title = staticHomeAbout.title,
+  excerpt = staticHomeAbout.excerpt,
+  highlights = staticHomeAbout.highlights as unknown as HighlightEntry[],
+  imageUrl,
+}: Props) {
   return (
     <section className="home-about" aria-labelledby="home-about-title">
       <div className="home-about-grid">
         <figure className="home-about-media">
-          <img
-            src={thelawImg}
-            alt="Attorney at Ibezim Law Offices — professional legal representation"
-            className="home-about-image"
-            width={640}
-            height={800}
-            loading="lazy"
-          />
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="Attorney at Ibezim Law Offices — professional legal representation"
+              className="home-about-image"
+              width={640}
+              height={800}
+              loading="lazy"
+            />
+          ) : (
+            <div className="home-about-image-placeholder" style={{ width: 640, height: 800, background: '#f0f0f0', borderRadius: 12 }} />
+          )}
           <span className="home-about-media-accent" aria-hidden="true" />
         </figure>
 

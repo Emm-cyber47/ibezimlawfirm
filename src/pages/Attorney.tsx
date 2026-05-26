@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom'
-import { attorney, firm } from '../data/site'
-import attorneyPhoto from '../ibezim.jpg'
+import { useSiteContent } from '../hooks/useSiteContent'
+import { useContactInfo } from '../hooks/useContactInfo'
+import { attorney as staticAttorney } from '../data/site'
+import attorneyPhotoFallback from '../ibezim.jpg'
 import './Attorney.css'
 
 export default function Attorney() {
-  const phoneHref = `tel:${firm.phone.replace(/[^\d+]/g, '')}`
+  const data = useSiteContent<any>('attorney', staticAttorney as any)
+  const contactInfo = useContactInfo()
+  const phoneHref = `tel:${contactInfo.phone.replace(/[^\d+]/g, '')}`
+  const photo = data.photoKey || attorneyPhotoFallback
 
   return (
     <>
@@ -12,8 +17,8 @@ export default function Attorney() {
         <div className="container attorney-hero-grid">
           <div className="attorney-photo-wrap">
             <img
-              src={attorneyPhoto}
-              alt={attorney.name}
+              src={photo}
+              alt={data.name}
               className="attorney-photo"
               width={400}
               height={500}
@@ -21,15 +26,15 @@ export default function Attorney() {
           </div>
           <div className="attorney-hero-text">
             <span className="section-label">Attorney details</span>
-            <h1 className="section-title">{attorney.name}</h1>
-            <p className="attorney-title">{attorney.title}</p>
-            <p className="attorney-subtitle">{attorney.subtitle}</p>
+            <h1 className="section-title">{data.name}</h1>
+            <p className="attorney-title">{data.title}</p>
+            <p className="attorney-subtitle">{data.subtitle}</p>
             <div className="attorney-hero-actions">
               <Link to="/contact" className="btn btn-primary">
                 Schedule a consultation
               </Link>
               <a href={phoneHref} className="btn btn-outline">
-                {firm.phone}
+                {contactInfo.phone}
               </a>
             </div>
           </div>
@@ -41,7 +46,7 @@ export default function Attorney() {
           <div className="attorney-bio-main">
             <span className="section-label">Biography</span>
             <h2 className="section-title">About Sebastian O. Ibezim</h2>
-            {attorney.bio.map((paragraph) => (
+            {(data.bio ?? []).map((paragraph: string) => (
               <p key={paragraph.slice(0, 48)} className="attorney-bio-p">
                 {paragraph}
               </p>
@@ -52,7 +57,7 @@ export default function Attorney() {
               <span className="luxe-card-shine" aria-hidden />
               <h3>Bar admissions</h3>
               <ul>
-                {attorney.admissions.map((item) => (
+                {(data.admissions ?? []).map((item: string) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -61,7 +66,7 @@ export default function Attorney() {
               <span className="luxe-card-shine" aria-hidden />
               <h3>Education</h3>
               <ul>
-                {attorney.education.map((item) => (
+                {(data.education ?? []).map((item: string) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -70,7 +75,7 @@ export default function Attorney() {
               <span className="luxe-card-shine" aria-hidden />
               <h3>Practice highlights</h3>
               <ul>
-                {attorney.highlights.map((item) => (
+                {(data.highlights ?? []).map((item: string) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>

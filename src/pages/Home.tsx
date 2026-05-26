@@ -6,16 +6,35 @@ import PracticeAreaCard from '../components/PracticeAreaCard.tsx'
 import LuxeCard from '../components/LuxeCard.tsx'
 import LuxeCardIcon from '../components/LuxeCardIcon.tsx'
 import WhyChooseUs from '../components/WhyChooseUs.tsx'
-import { firm, practiceAreas, values } from '../data/site'
+import { useSiteContent } from '../hooks/useSiteContent'
+import { firm as staticFirm, practiceAreas as staticPracticeAreas, values as staticValues, heroHeadlines as staticHeroHeadlines, heroTrustPillars as staticPillars, homeAboutSection as staticHomeAbout, whyChooseUs as staticWhyChooseUs } from '../data/site'
 import attorneyPortrait from '../ibezim.jpg'
 import courthouseImg from '../courthouse.jpg'
 import './pages.css'
 
+type AreaEntry = {
+  title: string
+  description: string
+  imageKey: string
+  icon: string
+}
+
 export default function Home() {
+  const content = useSiteContent<any>('homeContent', {})
+  const areas = useSiteContent<AreaEntry[]>('practiceAreas', staticPracticeAreas as unknown as AreaEntry[])
+
+  const firmData = content.firm ?? staticFirm
+  const headlines = content.heroHeadlines ?? staticHeroHeadlines
+  const pillars = content.heroTrustPillars ?? staticPillars
+  const aboutSection = content.homeAboutSection ?? staticHomeAbout
+  const values = content.values ?? staticValues
+  const aboutImage = content.aboutImage || undefined
+  const whyReasons = content.whyChooseUs?.reasons ?? staticWhyChooseUs.reasons
+
   return (
     <>
       <section className="page-hero hero-home">
-        <HeroTrustBar />
+        <HeroTrustBar pillars={pillars as any} firmPhone={firmData.phone} />
         <div className="hero-home-split">
           <div className="hero-home-media">
             <img
@@ -28,11 +47,11 @@ export default function Home() {
             <div className="hero-home-media-overlay" aria-hidden="true" />
             <div className="hero-home-content">
               <span className="hero-home-rule" aria-hidden="true" />
-              <span className="section-label">{firm.tagline}</span>
-              <HeroHeadlineCarousel />
+              <span className="section-label">{firmData.tagline}</span>
+              <HeroHeadlineCarousel headlines={headlines as any} />
               <span className="hero-home-rule hero-home-rule--short" aria-hidden="true" />
               <p className="section-lead">
-                {firm.name} serves individuals and businesses across the US with integrity,
+                {firmData.name} serves individuals and businesses across the US with integrity,
                 rigor, and a client-first approach to every matter.
               </p>
               <div className="hero-actions">
@@ -57,7 +76,13 @@ export default function Home() {
         <span className="hero-home-bottom-bar" aria-hidden="true" />
       </section>
 
-      <HomeAboutSection />
+      <HomeAboutSection
+        label={aboutSection.label}
+        title={aboutSection.title}
+        excerpt={aboutSection.excerpt}
+        highlights={aboutSection.highlights as any}
+        imageUrl={aboutImage}
+      />
 
       <section className="section section--practice-areas">
         <div className="container">
@@ -67,7 +92,7 @@ export default function Home() {
             Comprehensive legal services tailored to your personal and business needs.
           </p>
           <div className="practice-grid">
-            {practiceAreas.slice(0, 3).map(({ title, description, imageKey }) => (
+            {areas.slice(0, 3).map(({ title, description, imageKey }) => (
               <PracticeAreaCard
                 key={title}
                 title={title}
@@ -84,22 +109,22 @@ export default function Home() {
         </div>
       </section>
 
-      <WhyChooseUs />
+      <WhyChooseUs reasons={whyReasons as any} />
 
       <section className="section" style={{ background: 'var(--color-white)' }}>
         <div className="container">
           <span className="section-label">Our Approach</span>
           <h2 className="section-title">Built on Trust</h2>
           <div className="values-grid" style={{ marginTop: '2rem' }}>
-            {values.map(({ title, text, icon }, index) => (
+            {values.map((v: { title: string; text: string; icon: string }, index: number) => (
               <LuxeCard
-                key={title}
+                key={v.title}
                 className="value-item"
-                icon={<LuxeCardIcon type={icon} />}
+                icon={<LuxeCardIcon type={v.icon as any} />}
                 num={String(index + 1).padStart(2, '0')}
               >
-                <h3 className="luxe-card-title">{title}</h3>
-                <p className="luxe-card-text">{text}</p>
+                <h3 className="luxe-card-title">{v.title}</h3>
+                <p className="luxe-card-text">{v.text}</p>
               </LuxeCard>
             ))}
           </div>

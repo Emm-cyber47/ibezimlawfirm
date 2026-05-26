@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { firm, faqs, testimonials } from '../data/site'
+import { firm, faqs, testimonials as fallbackTestimonials } from '../data/site'
+
 import officeImg from '../office.jpg'
 import './Testimonials.css'
+import type { Testimonial } from '../types/testimonials'
+import { listAllClientTestimonials } from '../lib/clientTestimonials'
 
 function StarRating({ count }: { count: number }) {
   return (
@@ -58,6 +61,29 @@ function FaqAccordion() {
 }
 
 export default function Testimonials() {
+  const [items, setItems] = useState<Testimonial[]>(
+    fallbackTestimonials as unknown as Testimonial[],
+  )
+
+  useEffect(() => {
+    let active = true
+    async function load() {
+      try {
+        const data = await listAllClientTestimonials()
+        if (!active) return
+        if (data.length > 0) setItems(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    void load()
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const testimonials = items
+
   return (
     <>
       <section className="testimonials-page-hero">

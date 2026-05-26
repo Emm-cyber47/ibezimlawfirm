@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom'
-import { firm, heroTrustPillars } from '../data/site'
+import { firm as staticFirm, heroTrustPillars as staticPillars } from '../data/site'
 import './HeroTrustBar.css'
 
-const phoneHref = `tel:+${firm.phone.replace(/\D/g, '')}`
+type PillarEntry = {
+  num: string
+  label: string
+  icon: string
+}
 
-function PillarIcon({ type }: { type: (typeof heroTrustPillars)[number]['icon'] }) {
+type Props = {
+  pillars?: PillarEntry[]
+  firmPhone?: string
+}
+
+const phoneHref = (phone: string) => `tel:+${phone.replace(/\D/g, '')}`
+
+function PillarIcon({ type }: { type: string }) {
   const props = {
     viewBox: '0 0 24 24',
     fill: 'none',
@@ -42,13 +53,16 @@ function PillarIcon({ type }: { type: (typeof heroTrustPillars)[number]['icon'] 
   )
 }
 
-export default function HeroTrustBar() {
+export default function HeroTrustBar({
+  pillars = staticPillars as unknown as PillarEntry[],
+  firmPhone = staticFirm.phone,
+}: Props) {
   return (
     <section className="hero-trust-bar" aria-label="Why clients choose us">
       <div className="hero-trust-pillars">
-        {heroTrustPillars.map((pillar, index) => (
+        {pillars.map((pillar, index) => (
           <div
-            key={pillar.label}
+            key={pillar.label + index}
             className="hero-trust-pillar"
             style={{ animationDelay: `${index * 0.12}s` }}
           >
@@ -74,11 +88,11 @@ export default function HeroTrustBar() {
         </span>
         <span className="hero-trust-consult-copy">
           <span className="hero-trust-consult-eyebrow">Free Consultation</span>
-          <span className="hero-trust-consult-phone">{firm.phone}</span>
+          <span className="hero-trust-consult-phone">{firmPhone}</span>
         </span>
       </Link>
-      <a href={phoneHref} className="hero-trust-phone-sr">
-        Call {firm.phone}
+      <a href={phoneHref(firmPhone)} className="hero-trust-phone-sr">
+        Call {firmPhone}
       </a>
     </section>
   )

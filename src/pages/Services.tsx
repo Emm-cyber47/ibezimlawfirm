@@ -1,9 +1,19 @@
 import { Link } from 'react-router-dom'
 import PracticeAreaCard from '../components/PracticeAreaCard.tsx'
-import { practiceAreas } from '../data/site'
+import { useSiteContent } from '../hooks/useSiteContent'
+import { practiceAreas as staticPracticeAreas } from '../data/site'
 import './pages.css'
 
+type AreaEntry = {
+  title: string
+  description: string
+  imageKey: string
+  icon: string
+}
+
 export default function Services() {
+  const areas = useSiteContent<AreaEntry[]>('practiceAreas', staticPracticeAreas as unknown as AreaEntry[])
+
   return (
     <>
       <section className="page-hero">
@@ -19,16 +29,20 @@ export default function Services() {
 
       <section className="section section--practice-areas">
         <div className="container">
-          <div className="practice-grid">
-            {practiceAreas.map(({ title, description, imageKey }) => (
-              <PracticeAreaCard
-                key={title}
-                title={title}
-                description={description}
-                imageKey={imageKey}
-              />
-            ))}
-          </div>
+          {areas.length === 0 ? (
+            <p style={{ textAlign: 'center', color: '#999' }}>Practice areas coming soon.</p>
+          ) : (
+            <div className="practice-grid">
+              {areas.map(({ title, description, imageKey }) => (
+                <PracticeAreaCard
+                  key={title}
+                  title={title}
+                  description={description}
+                  imageKey={imageKey}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

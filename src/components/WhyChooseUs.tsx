@@ -1,14 +1,19 @@
-import { whyChooseUs } from '../data/site'
+import { whyChooseUs as staticWhyChooseUs } from '../data/site'
+import LuxeCard from './LuxeCard'
 import './WhyChooseUs.css'
 
-type ReasonIcon = (typeof whyChooseUs.reasons)[number]['icon']
-
-type WhyChooseUsProps = {
-  variant?: 'section' | 'contact'
+type ReasonEntry = {
+  title: string
+  text: string
+  icon: string
 }
 
-function ReasonIconSvg({ type }: { type: ReasonIcon }) {
-  const props = {
+type Props = {
+  reasons?: ReasonEntry[]
+}
+
+function ReasonIcon({ icon }: { icon: string }) {
+  const p = {
     viewBox: '0 0 24 24',
     fill: 'none',
     stroke: 'currentColor',
@@ -16,117 +21,99 @@ function ReasonIconSvg({ type }: { type: ReasonIcon }) {
     'aria-hidden': true as const,
   }
 
-  switch (type) {
-    case 'accessible':
-      return (
-        <svg {...props}>
-          <path d="M5 12h14M12 5v14" strokeLinecap="round" />
-          <circle cx="12" cy="8" r="2.5" />
-          <path d="M7 20v-1a5 5 0 0 1 10 0v1" strokeLinecap="round" />
-        </svg>
-      )
-    case 'personable':
-      return (
-        <svg {...props}>
-          <path d="M8 11a4 4 0 1 1 8 0M6 20v-1a6 6 0 0 1 12 0v1" strokeLinecap="round" />
-          <path d="M12 11v3M10.5 13.5h3" strokeLinecap="round" />
-        </svg>
-      )
-    case 'experience':
-      return (
-        <svg {...props}>
-          <path d="M4 10l8-5 8 5v9H4z" strokeLinejoin="round" />
-          <path d="M9 19v-5h6v5M12 5v2" strokeLinecap="round" />
-        </svg>
-      )
-    case 'communication':
-      return (
-        <svg {...props}>
-          <path d="M5 8h14v8H9l-4 4V8z" strokeLinejoin="round" />
-          <path d="M8 11h8M8 14h5" strokeLinecap="round" />
-        </svg>
-      )
-    case 'results':
-      return (
-        <svg {...props}>
-          <path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5L12 14.8 7.5 16.7l.9-5L4.8 8.2l5-.7L12 3z" strokeLinejoin="round" />
-        </svg>
-      )
-    default:
-      return null
-  }
-}
-
-function WhyChooseCard({
-  reason,
-  index,
-}: {
-  reason: (typeof whyChooseUs.reasons)[number]
-  index: number
-}) {
-  return (
-    <article
-      className="luxe-card why-choose-card"
-      style={{ animationDelay: `${index * 0.08}s` }}
-    >
-      <span className="luxe-card-shine" aria-hidden />
-      <span className="why-choose-card-num luxe-card-num" aria-hidden="true">
-        {String(index + 1).padStart(2, '0')}
-      </span>
-      <span className="why-choose-card-icon">
-        <ReasonIconSvg type={reason.icon} />
-      </span>
-      <div className="luxe-card-inner">
-        <h3 className="why-choose-card-title luxe-card-title">{reason.title}</h3>
-        <p className="why-choose-card-text luxe-card-text">{reason.text}</p>
-      </div>
-    </article>
-  )
-}
-
-export default function WhyChooseUs({ variant = 'section' }: WhyChooseUsProps) {
-  const { eyebrow, title, reasons } = whyChooseUs
-  const topRow = reasons.slice(0, 3)
-  const bottomRow = reasons.slice(3)
-
-  const grid = (
-    <div className="why-choose-grid why-choose-grid--pyramid">
-      <div className="why-choose-row">
-        {topRow.map((reason, index) => (
-          <WhyChooseCard key={reason.title} reason={reason} index={index} />
-        ))}
-      </div>
-      <div className="why-choose-row why-choose-row--bottom">
-        {bottomRow.map((reason, index) => (
-          <WhyChooseCard key={reason.title} reason={reason} index={index + 3} />
-        ))}
-      </div>
-    </div>
-  )
-
-  if (variant === 'contact') {
+  if (icon === 'accessible')
     return (
-      <div className="contact-why" aria-labelledby="contact-why-title">
-        <h3 id="contact-why-title" className="contact-why-title">
-          {title}
-        </h3>
-        {grid}
-      </div>
+      <svg {...p}>
+        <circle cx="12" cy="7" r="3" />
+        <path d="M6 20v-1.5a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4V20" strokeLinecap="round" />
+        <path d="M9 11h6M12 8v6" strokeLinecap="round" />
+      </svg>
     )
-  }
+  if (icon === 'experience')
+    return (
+      <svg {...p}>
+        <path d="M3 12h4l2-3 3 3 3-3 2 3h4" strokeLinejoin="round" />
+        <path d="M4 16h16" strokeLinecap="round" />
+        <circle cx="12" cy="6" r="2" />
+      </svg>
+    )
+  if (icon === 'personable')
+    return (
+      <svg {...p}>
+        <circle cx="12" cy="7" r="3" />
+        <path d="M6 20v-1.5a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4V20" strokeLinecap="round" />
+        <path d="M9 13l3-2 3 2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )
+  if (icon === 'communication')
+    return (
+      <svg {...p}>
+        <path d="M4 21v-4a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4" strokeLinejoin="round" />
+        <circle cx="12" cy="7" r="4" />
+        <path d="M10 16l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )
+  return (
+    <svg {...p}>
+      <path d="M5 20h14l-1.5-3H6.5L5 20z" strokeLinejoin="round" />
+      <path d="M8 17V9h8v8M10 9V6.5A2 2 0 0 1 12 4.5h0a2 2 0 0 1 2 2V9" strokeLinecap="round" />
+      <path d="M6 9h12" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export default function WhyChooseUs({
+  reasons = staticWhyChooseUs.reasons as unknown as ReasonEntry[],
+}: Props) {
+  const topRow = reasons.slice(0, 3)
+  const bottomRow = reasons.slice(3, 5)
 
   return (
-    <section className="why-choose" aria-labelledby="why-choose-title">
-      <div className="why-choose-bg" aria-hidden="true" />
-      <div className="container why-choose-inner">
-        <header className="why-choose-header">
-          <span className="why-choose-eyebrow">{eyebrow}</span>
-          <h2 id="why-choose-title" className="why-choose-title">
-            {title}
-          </h2>
-          <span className="why-choose-header-rule" aria-hidden="true" />
-        </header>
-        {grid}
+    <section className="why-choose">
+      <div className="why-choose-bg" />
+      <div className="why-choose-inner">
+        <div className="why-choose-header">
+          <span className="why-choose-eyebrow">{staticWhyChooseUs.eyebrow}</span>
+          <h2 className="why-choose-title">{staticWhyChooseUs.title}</h2>
+        </div>
+
+        <div className="why-choose-grid--pyramid">
+          <div className="why-choose-row">
+            {topRow.map((reason, i) => (
+              <LuxeCard
+                key={reason.title + i}
+                className="why-choose-card"
+                icon={<ReasonIcon icon={reason.icon} />}
+                num={String(i + 1).padStart(2, '0')}
+              >
+                <div className="why-choose-card-body">
+                  <div className="why-choose-card-head">
+                    <h3 className="why-choose-card-title">{reason.title}</h3>
+                  </div>
+                  <p className="why-choose-card-text">{reason.text}</p>
+                </div>
+              </LuxeCard>
+            ))}
+          </div>
+
+          <div className="why-choose-row why-choose-row--bottom">
+            {bottomRow.map((reason, i) => (
+              <LuxeCard
+                key={reason.title + i}
+                className="why-choose-card"
+                icon={<ReasonIcon icon={reason.icon} />}
+                num={String(i + 4).padStart(2, '0')}
+              >
+                <div className="why-choose-card-body">
+                  <div className="why-choose-card-head">
+                    <h3 className="why-choose-card-title">{reason.title}</h3>
+                  </div>
+                  <p className="why-choose-card-text">{reason.text}</p>
+                </div>
+              </LuxeCard>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -13,6 +13,7 @@ import {
   validateDocumentFile,
   type ClientDocument,
 } from '../lib/clientDocuments'
+import { addClientDocumentToSupabase } from '../lib/clientDocumentsSupabase'
 import '../components/FormField.css'
 import './Documents.css'
 
@@ -120,7 +121,19 @@ export default function Documents() {
 
     setSubmitting(true)
     try {
-      await addClientDocument(userEmail, selectedFile, note)
+      // Supabase mode (persistent + visible to admin)
+      if (user?.id) {
+        await addClientDocumentToSupabase({
+          userId: user.id,
+          userEmail,
+          file: selectedFile,
+          note,
+        })
+      } else {
+        // Demo/local mode (IndexedDB only)
+        await addClientDocument(userEmail, selectedFile, note)
+      }
+
       setSelectedFile(null)
       setNote('')
       setFileError(null)

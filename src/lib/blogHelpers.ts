@@ -6,6 +6,7 @@ export function formatBlogDate(iso: string, uppercase = false) {
     month: 'long',
     day: 'numeric',
   })
+
   return uppercase ? formatted.toUpperCase() : formatted
 }
 
@@ -33,3 +34,5 @@ export function getBlogCategories() {
   }
   return Array.from(counts.entries()).sort(([a], [b]) => a.localeCompare(b))
 }
+
+

@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import FormField from '../components/FormField.tsx'
 import SocialLinks from '../components/SocialLinks.tsx'
 import { firm, practiceAreas } from '../data/site'
+import { useContactInfo } from '../hooks/useContactInfo'
 import { submitContactForm } from '../lib/contactSubmissions'
 import {
   hasErrors,
@@ -85,7 +86,9 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
 
-  const phoneHref = `tel:${firm.phone.replace(/[^\d+]/g, '')}`
+  const contactInfo = useContactInfo()
+  const phoneHref = `tel:${contactInfo.phone.replace(/[^\d+]/g, '')}`
+  const faxHref = `tel:${contactInfo.fax.replace(/[^\d+]/g, '')}`
 
   const defaultMatter = useMemo(() => {
     const area = searchParams.get('area')
@@ -165,11 +168,11 @@ export default function Contact() {
           <div className="contact-hero-actions">
             <a href={phoneHref} className="contact-hero-link">
               <IconPhone />
-              {firm.phone}
+              {contactInfo.phone}
             </a>
-            <a href={`mailto:${firm.email}`} className="contact-hero-link">
+            <a href={`mailto:${contactInfo.email}`} className="contact-hero-link">
               <IconMail />
-              {firm.email}
+              {contactInfo.email}
             </a>
           </div>
         </div>
@@ -189,7 +192,7 @@ export default function Contact() {
                   For urgent matters, please call our office directly.
                 </p>
                 <a href={phoneHref} className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
-                  Call {firm.phone}
+                  Call {contactInfo.phone}
                 </a>
               </div>
             ) : (
@@ -353,7 +356,10 @@ export default function Contact() {
               </div>
               <div className="contact-info-body">
                 <h3>Call us</h3>
-                <a href={phoneHref}>{firm.phone}</a>
+                <a href={phoneHref}>{contactInfo.phone}</a>
+                <p style={{ marginTop: '0.25rem', fontSize: '0.875rem' }}>
+                  Fax: <a href={faxHref}>{contactInfo.fax}</a>
+                </p>
               </div>
             </div>
             <div className="contact-info-card luxe-card">
@@ -363,7 +369,10 @@ export default function Contact() {
               </div>
               <div className="contact-info-body">
                 <h3>Email</h3>
-                <a href={`mailto:${firm.email}`}>{firm.email}</a>
+                <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+                <p style={{ marginTop: '0.25rem', fontSize: '0.875rem' }}>
+                  <a href={`mailto:${contactInfo.secondEmail}`}>{contactInfo.secondEmail}</a>
+                </p>
               </div>
             </div>
             <div className="contact-info-card luxe-card">
@@ -383,7 +392,7 @@ export default function Contact() {
               </div>
               <div className="contact-info-body">
                 <h3>Visit us</h3>
-                <p>{firm.address}</p>
+                <p>{contactInfo.address}</p>
                 <a
                   href={firm.directionsUrl}
                   target="_blank"
@@ -409,7 +418,7 @@ export default function Contact() {
           />
           <div className="contact-map-overlay">
             <h3>{firm.name}</h3>
-            <p>{firm.address}</p>
+            <p>{contactInfo.address}</p>
             <a
               href={firm.directionsUrl}
               className="btn btn-navy"
